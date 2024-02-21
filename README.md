@@ -5,3 +5,5 @@ https://docs.github.com/en/enterprise-cloud@latest/codespaces/setting-up-your-pr
 ```bash
 cd ecm && php artisan serve
 ```
+
+sudo docker-php-ext-install pdo pdo_pgsql
