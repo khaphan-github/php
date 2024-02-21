@@ -1,3 +1,4 @@
+
 # Run your application
 - Step 1: In the Terminal of your codespace, enter:
 
@@ -18,3 +19,4 @@
   
   When your project starts, you should see a "toast" notification message at the bottom right corner of VS Code, telling you that your application is available on a forwarded port.
   To view the running application, click Open in Browser.
+
