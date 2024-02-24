@@ -19,10 +19,15 @@ Route::get('/', function () {
 
 
 Route::get('/login', function () {
+    // conssole.logt(ussername, passwrod);
+    // Kha: logic login;
+    // repnse: -> Quynfh hieern thij
+
+    
     return view('welcome');
 });
 
 
 Route::get('/register', function () {
-    return view('welcome');
+    return view('admin/welcome');
 });
