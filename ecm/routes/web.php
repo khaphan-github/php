@@ -93,3 +93,5 @@ Route::get('/login', function () {
 // Route includes 
 Route::get('/test', [TestController::class, 'get']);
 Route::post('/admin/category/create', [TestController::class, 'store'])->name('admin.category.store');
+Route::view('/home', 'client/pages/home');
+Route::view('/shop', 'client/pages/shop');
