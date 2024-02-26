@@ -6,7 +6,9 @@ use App\Http\Controllers\InfoUserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 
@@ -87,5 +89,9 @@ Route::get('/login', function () {
     return view('session/login-session');
 })->name('login');
 
+
+// Route includes 
+Route::get('/test', [TestController::class, 'get']);
+Route::post('/admin/category/create', [TestController::class, 'store'])->name('admin.category.store');
 Route::view('/home', 'client/pages/home');
 Route::view('/shop', 'client/pages/shop');
