@@ -88,3 +88,4 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::view('/home', 'client/pages/home');
+Route::view('/shop', 'client/pages/shop');
