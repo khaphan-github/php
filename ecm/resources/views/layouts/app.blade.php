@@ -42,8 +42,11 @@
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="/admin/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <link href="/admin/assets/css/custom.css" rel="stylesheet" />
+  
   <!-- CSS Files -->
   <link id="pagestyle" href="/admin/assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
+  
 </head>
 
 <body class="g-sidenav-show  bg-gray-100 {{ (\Request::is('rtl') ? 'rtl' : (Request::is('virtual-reality') ? 'virtual-reality' : '')) }} ">
@@ -67,8 +70,8 @@
   <script src="/admin/assets/js/core/bootstrap.min.js"></script>
   <script src="/admin/assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="/admin/assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="/admin/assets/js/plugins/fullcalendar.min.js"></script>
-  <script src="/admin/assets/js/plugins/chartjs.min.js"></script>
+  {{-- <script src="/admin/assets/js/plugins/fullcalendar.min.js"></script> --}}
+  {{-- <script src="/admin/assets/js/plugins/chartjs.min.js"></script> --}}
   @stack('rtl')
   @stack('dashboard')
   <script>

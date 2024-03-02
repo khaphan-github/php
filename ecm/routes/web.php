@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
@@ -26,67 +27,72 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/', [HomeController::class, 'home']);
+	Route::get('/', [HomeController::class, 'home']);
 	Route::get('dashboard', function () {
-		return view('dashboard');
+		return view('admin/dashboard');
 	})->name('dashboard');
 
 	Route::get('billing', function () {
-		return view('billing');
+		return view('admin/billing');
 	})->name('billing');
 
 	Route::get('profile', function () {
-		return view('profile');
+		return view('admin/profile');
 	})->name('profile');
 
 	Route::get('rtl', function () {
-		return view('rtl');
+		return view('admin/rtl');
 	})->name('rtl');
 
 	Route::get('user-management', function () {
-		return view('laravel-examples/user-management');
+		return view('admin/user-management');
 	})->name('user-management');
 
 	Route::get('tables', function () {
-		return view('tables');
+		return view('admin/tables');
 	})->name('tables');
 
-    Route::get('virtual-reality', function () {
-		return view('virtual-reality');
+	Route::get('virtual-reality', function () {
+		return view('admin/virtual-reality');
 	})->name('virtual-reality');
 
-    Route::get('static-sign-in', function () {
-		return view('static-sign-in');
+	Route::get('static-sign-in', function () {
+		return view('admin/static-sign-in');
 	})->name('sign-in');
 
-    Route::get('static-sign-up', function () {
-		return view('static-sign-up');
+	Route::get('static-sign-up', function () {
+		return view('admin/static-sign-up');
 	})->name('sign-up');
 
-    Route::get('/logout', [SessionsController::class, 'destroy']);
+	Route::get('/logout', [SessionsController::class, 'destroy']);
 	Route::get('/user-profile', [InfoUserController::class, 'create']);
 	Route::post('/user-profile', [InfoUserController::class, 'store']);
-    Route::get('/login', function () {
+	Route::get('/login', function () {
 		return view('dashboard');
 	})->name('sign-up');
+
+	// Category
+	Route::get('/admin/category', [AdminCategoryController::class, 'filterPage'])->name('categories.filter');
+	Route::post('/admin/category', [AdminCategoryController::class, 'createFunction'])->name('categories.createFunction');
+	Route::put('/admin/category', [AdminCategoryController::class, 'updateFunction'])->name('categories.updateFunction');
+	Route::get('/admin/category/delete/{id}', [AdminCategoryController::class, 'deleteFunction']);
 });
 
 
 
 Route::group(['middleware' => 'guest'], function () {
-    Route::get('/register', [RegisterController::class, 'create']);
-    Route::post('/register', [RegisterController::class, 'store']);
-    Route::get('/login', [SessionsController::class, 'create']);
-    Route::post('/session', [SessionsController::class, 'store']);
+	Route::get('/register', [RegisterController::class, 'create']);
+	Route::post('/register', [RegisterController::class, 'store']);
+	Route::get('/login', [SessionsController::class, 'create']);
+	Route::post('/session', [SessionsController::class, 'store']);
 	Route::get('/login/forgot-password', [ResetController::class, 'create']);
 	Route::post('/forgot-password', [ResetController::class, 'sendEmail']);
 	Route::get('/reset-password/{token}', [ResetController::class, 'resetPass'])->name('password.reset');
 	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-
 });
 
 Route::get('/login', function () {
-    return view('session/login-session');
+	return view('session/login-session');
 })->name('login');
 
 

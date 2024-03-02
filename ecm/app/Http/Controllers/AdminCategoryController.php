@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\View;
 
@@ -13,78 +14,88 @@ use Illuminate\Support\Facades\View;
 class AdminCategoryController extends Controller
 {
 
-     
-    public function createPage(Request $request)    {
-        // Delate variable from db
-        $users = DB::table('users')->get();
 
-        $templateVariables = ['users' => $users];
+    public function filterPage(Request $request)
+    {
+        $page = $request->query('page', 1);
+        $size = $request->query('size', 10);
 
-        // view(templateName, variables);
-        return view('test', $templateVariables); 
-    }
+        $search = $request->query('s');
 
-    public function createFunction(Request $request)    {
-        // $attributes = request()->validate([
-        //     'email'=>'required|email',
-        //     'password'=>'required' 
-        // ]);
+        $query = DB::table('category');
 
-        // Delate variable from db
-        $users = DB::table('users')->get();
+        if (!empty($search)) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
 
-        $templateVariables = ['users' => $users];
+        $listItem = $query->paginate($size, ['*'], 'page', $page);
 
-        // view(templateName, variables);
-        return view('test', $templateVariables); 
-    }
+        $totalPages = ceil($listItem->total() / $size);
 
-    public function filterPage(Request $request)    {
-        // Delate variable from db
-        $listItem = DB::table('category')->get();
-        $templateVariables = ['listItem' => $listItem];
-        // view(templateName, variables);
-        return view('test', $templateVariables); 
-    }
+        $templateVariables = [
+            'listItem' => $listItem,
+            'searchQuery' => $search,
+            'perPage' => $size,
+            'page' => $page,
+            'totalPages' => $totalPages
+        ];
 
-    public function updatePage(Request $request)    {
-        // Delate variable from db
-        $users = DB::table('users')->get();
-
-        $templateVariables = ['users' => $users];
-
-        // view(templateName, variables);
-        return view('test', $templateVariables); 
-    }
-
-    public function updateFunction(Request $request)    {
-        // Delate variable from db
-        $users = DB::table('users')->get();
-
-        $templateVariables = ['users' => $users];
-
-        // view(templateName, variables);
-        return view('test', $templateVariables); 
+        return view('admin/category/table', $templateVariables);
     }
     
-    public function deleteFunction(Request $request)    {
-        // Delate variable from db
-        $users = DB::table('users')->get();
+    public function createFunction(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'icon' => 'nullable|string|max:255',
+            'parent_category_id' => 'nullable|exists:category,id',
+        ]);
 
-        $templateVariables = ['users' => $users];
+        $data = [
+            'name' => $request->name,
+            'icon' => $request->icon,
+            'parent_category_id' => $request->parent_category_id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
 
-        // view(templateName, variables);
-        return view('test', $templateVariables); 
+        $success = DB::table('category')->insert($data);
+
+        return back();
     }
 
-    public function deletePage(Request $request)    {
-        // Delate variable from db
-        $users = DB::table('users')->get();
 
-        $templateVariables = ['users' => $users];
+    public function updateFunction(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'icon' => 'nullable|string|max:255',
+            'parent_category_id' => 'nullable|exists:category,id',
+        ]);
 
-        // view(templateName, variables);
-        return view('test', $templateVariables); 
+        $data = [
+            'name' => $request->name,
+            'icon' => $request->icon,
+            'parent_category_id' => $request->parent_category_id,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
+
+        if ($request->has('id')) {
+            // Update existing category
+            $data['updated_at'] = now();
+            DB::table('category')->where('id', $request->id)->update($data);
+        } else {
+            // Create new category
+            DB::table('category')->insert($data);
+        }
+
+        return back();
+    }
+
+    public function deleteFunction($id)
+    {
+        $deletedRows = DB::table('category')->delete((int)$id);
+        return back();
     }
 }
-
