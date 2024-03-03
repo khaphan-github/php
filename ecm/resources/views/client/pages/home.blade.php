@@ -14,7 +14,7 @@
                         <div class="featured__controls">
                             <ul>
                                 @foreach ($category as $cat)
-                                    <li onclick="findProductByCategoryId({{ $cat->id }})">
+                                    <li onclick="findProductByCategoryId({{$cat->id}})">
                                         {{ $cat->name }}</li>
                                 @endforeach
                             </ul>
