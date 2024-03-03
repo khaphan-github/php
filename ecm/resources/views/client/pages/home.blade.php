@@ -11,34 +11,22 @@
                     @if ($category->isEmpty())
                         <li>Nout Found Item</li>
                     @else
-                    <div class="featured__controls">
-                        <ul>
-                            @foreach ($category as $cat)
-                                <li onclick="filterProducts('{{ $cat->id }}')" data-filter=".{{ $cat->name }}">{{ $cat->name }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                     @endif
+                        <div class="featured__controls">
+                            <ul>
+                                @foreach ($category as $cat)
+                                    <li onclick="findProductByCategoryId({{ $cat->id }})">
+                                        {{ $cat->name }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="row featured__filter">
-                @foreach ($product as $product)
-                    <div class="col-lg-3 col-md-4 col-sm-6 mix {{ $product->category->name }}">
-                        <div class="featured__item">
-                            <div class="featured__item__pic set-bg" data-setbg="{{ asset('client/img/featured/' . $product->image) }}">
-                                <ul class="featured__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="featured__item__text">
-                                <h6><a href="#">{{ $product->name }}</a></h6>
-                                <h5>${{ $product->price }}</h5>
-                            </div>
-                        </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mix">
+                    <div class="featured__item">
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
     </section>
@@ -328,24 +316,54 @@
     </section>
     <!-- Blog Section End -->
 
-<script>
-        // Gửi yêu cầu lọc sản phẩm
-        function filterProducts(categoryId) {
-            const url = `/getProductCategoryId?categoryId=${categoryId}`;
-            console.log(categoryId)
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.products || data.products.length === 0) {
-                        window.location.href = '/NotFoundItem';
-                    } else {
-                        updateProductsView(data.products);
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+    <script>
+        // Function to render items
+        function renderItems(items, elementId) {
+            const itemsContainer = document.getElementById(elementId);
+            itemsContainer.innerHTML = ''; // Clear previous content
+
+            // Iterate over the items array and generate HTML for each item
+            items.forEach(item => {
+                const itemHtml = `
+            <div class="col-lg-3 col-md-4 col-sm-6 mix">
+                <div class="featured__item">
+                    <div class="featured__item__pic set-bg">
+                        <img src="${item.thumbnail_url}" alt="${item.name}">
+                        <ul class="featured__item__pic__hover">
+                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="featured__item__text">
+                        <h6><a href="#">${item.name}</a></h6>
+                        <h5>${item.description}</h5>
+                    </div>
+                </div>
+            </div>
+        `;
+                itemsContainer.innerHTML += itemHtml; // Append item HTML to container
+            });
         }
 
-        // Cập nhật danh sách sản phẩm
+        // Gửi yêu cầu lọc sản phẩm
+        function findProductByCategoryId(categoryId) {
+            fetch(`/api/product-by-category-id?category_id=${categoryId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    updateProductsView(data);
+                    // renderItems(data, 'productsByCategoryDisplayListContainer');
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
+        }
+
         function updateProductsView(products) {
             const container = document.querySelector('.featured__filter');
             container.innerHTML = ''; // Xóa các sản phẩm hiện tại
@@ -354,7 +372,7 @@
                 const productHTML = `
                     <div class="col-lg-3 col-md-4 col-sm-6 mix">
                         <div class="featured__item">
-                            <div class="featured__item__pic set-bg" data-setbg="${product.image}">
+                            <div class="featured__item__pic set-bg" data-setbg="${product.thumbnail_url}" style='background-image: url("${product.thumbnail_url}");'>
                                 <ul class="featured__item__pic__hover">
                                     <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                     <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -371,23 +389,6 @@
                 container.innerHTML += productHTML;
             });
         }
-
-        // Lắng nghe sự kiện khi danh mục được chọn
-        document.querySelectorAll('.featured__controls li').forEach(item => {
-            item.addEventListener('click', function() {
-                const categoryId = this.getAttribute('data-category-id'); // Giả sử mỗi <li> có attribute data-category-id
-                // const productName = document.getElementById('searchInput').value; // Giả sử có input tìm kiếm với id là searchInput
-                filterProducts(categoryId);
-            });
-        });
-
-        // // Lắng nghe sự kiện tìm kiếm
-        // // Giả sử bạn có một input tìm kiếm với id là 'searchInput' và một nút tìm kiếm
-        // document.getElementById('searchButton').addEventListener('click', function() {
-        //     const productName = document.getElementById('searchInput').value;
-        //     const categoryId = document.querySelector('.featured__controls li.active').getAttribute('parent-category-id'); // Giả sử danh mục đang được chọn có class 'active'
-        //     filterProducts(productName, categoryId);
-        // });
-</script>
+    </script>
 
 @endsection
