@@ -185,7 +185,7 @@
         }
     
     function pagination(currentPage, totalPages, categoryId) {
-        const paginationContainer = document.querySelector('.product__pagination');
+        const paginationContainer = document.querySelector('#paginationContainer');
         paginationContainer.innerHTML = ''; // Xóa phân trang hiện tại
 
         // Thêm nút "Trước" nếu không phải trang đầu tiên
