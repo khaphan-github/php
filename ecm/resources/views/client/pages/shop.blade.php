@@ -26,10 +26,10 @@
                         <div class="sidebar__item">
                             <h4>Danh mục</h4>
                             <div class="sidebar__item__size">
-                                    @foreach ($category as $cat)
-                                    <label  for="large" onclick="findProductByCategoryId({{$cat->id}})">
+                                @foreach ($category as $cat)
+                                    <label for="large" onclick="findProductByCategoryId({{ $cat->id }})">
                                         {{ $cat->name }}</label>
-                                    @endforeach
+                                @endforeach
                             </div>
                         </div>
                         <div class="sidebar__item">
@@ -124,12 +124,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                
-                            </div>
-                        </div>
+                    <div class="row product__item___display">
                     </div>
                     <div class="product__pagination">
                         <a href="#">1</a>
@@ -143,8 +138,8 @@
     </section>
     <!-- Product Section End -->
 
-<script>
-    // Gửi yêu cầu lọc sản phẩm
+    <script>
+        // Gửi yêu cầu lọc sản phẩm
         function findProductByCategoryId(categoryId) {
             fetch(`/api/product-by-category-id?category_id=${categoryId}`)
                 .then(response => {
@@ -161,34 +156,30 @@
                 .catch(error => {
                     console.error('Fetch error:', error);
                 });
-    }
+        }
 
-    function updateProductsView(products) {
-            const container = document.querySelector('.product__item');
+        function updateProductsView(products) {
+            const container = document.querySelector('.product__item___display');
             container.innerHTML = ''; // Xóa các sản phẩm hiện tại
 
             products.forEach(product => {
                 const productHTML = `
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg"data-setbg="${product.thumbnail_url}" style='background-image: url("${product.thumbnail_url}");">
-                                    <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6><a href="#">${product.name}</a></h6>
-                                    <h5>${product.price}</h5>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="product__item__pic set-bg" data-setbg="${product.thumbnail_url}" style="background-image: url(${product.thumbnail_url});">
+                        <ul class="product__item__pic__hover">
+                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                        </ul>
                     </div>
+                    <div class="product__item__text">
+                        <h6><a href="#">${product.name}</a></h6>
+                        <h5>${product.sell_price} VND</h5>
+                    </div>
+                </div>
                 `;
                 container.innerHTML += productHTML;
             });
         }
-</script>
+    </script>
 @endsection
