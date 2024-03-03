@@ -10,9 +10,6 @@ use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -111,5 +108,4 @@ Route::view('/shop-cart', 'client/pages/shop-cart');
 Route::view('/shop-details', 'client/pages/shop-details');
 Route::view('/NotFoundItem', 'client/pages/NotFoundItem');
 Route::get('/', [ProductController::class, 'home'])->name('home');
-Route::get('/getProductCategoryId', [ProductController::class, 'getProductCategoryId'])->name('home');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
