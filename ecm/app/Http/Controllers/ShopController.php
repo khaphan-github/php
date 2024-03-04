@@ -32,7 +32,7 @@ class ShopController extends Controller
         }
         
         // Thực thi truy vấn và lấy kết quả
-        $products = $query->get(); // Lấy tất cả sản phẩm phù hợp với bộ lọc
+        $products = $query->paginate(10); 
         
         // Chuẩn bị biến để truyền sang view
         $templateVariables = [

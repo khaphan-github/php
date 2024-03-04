@@ -126,12 +126,7 @@
                     </div>
                     <div class="row product__item___display">
                     </div>
-                    <div class="product__pagination" id="paginationContainer">
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>
-                    </div>
+                    {{$product->links("client.pagination.default")}}
                 </div>
             </div>
         </div>
@@ -141,7 +136,7 @@
 <script>
     // Gửi yêu cầu lọc sản phẩm
         function findProductByCategoryId(categoryId) {
-            fetch(`/api/product-by-category-id?category_id=${categoryId}&page=${page}`)
+            fetch(`/api/product-by-category-id?category_id=${categoryId}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -151,8 +146,6 @@
                 .then(data => {
                     console.log(data)
                     updateProductsView(data);
-                    pagination(page, data.totalPages, categoryId);
-                    // renderItems(data, 'productsByCategoryDisplayListContainer');
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
@@ -183,26 +176,6 @@
                 container.innerHTML += productHTML;
             });
         }
-    
-    function pagination(currentPage, totalPages, categoryId) {
-        const paginationContainer = document.querySelector('#paginationContainer');
-        paginationContainer.innerHTML = ''; // Xóa phân trang hiện tại
-
-        // Thêm nút "Trước" nếu không phải trang đầu tiên
-        if (currentPage > 1) {
-            paginationContainer.innerHTML += `<a href="#" onclick="findProductByCategoryId(${categoryId}, ${currentPage - 1})">Trước</a>`;
-        }
-
-        // Tạo các số trang
-        for (let i = 1; i <= totalPages; i++) {
-            paginationContainer.innerHTML += `<a href="#" class="${i === currentPage ? 'active' : ''}" onclick="findProductByCategoryId(${categoryId}, ${i})">${i}</a>`;
-        }
-
-        // Thêm nút "Sau" nếu không phải trang cuối cùng
-        if (currentPage < totalPages) {
-            paginationContainer.innerHTML += `<a href="#" onclick="findProductByCategoryId(${categoryId}, ${currentPage + 1})">Sau</a>`;
-        }
-    }
 
 </script>
 @endsection
