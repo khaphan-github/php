@@ -37,7 +37,8 @@ class ShopController extends Controller
         // Chuẩn bị biến để truyền sang view
         $templateVariables = [
             'product' => $products,
-            'category' => $categories
+            'category_categories' => $categories,
+            'category'=> $categories
         ];
         
         // Trả về view kèm theo dữ liệu sản phẩm và danh mục

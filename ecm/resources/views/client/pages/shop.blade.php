@@ -26,7 +26,7 @@
                         <div class="sidebar__item">
                             <h4>Danh mục</h4>
                             <div class="sidebar__item__size">
-                                    @foreach ($category as $cat)
+                                    @foreach ($category_categories as $cat)
                                     <label for="large" onclick="findProductByCategoryId({{ $cat->id }})">
                                         {{ $cat->name }}</label>
                                     @endforeach
@@ -126,7 +126,12 @@
                     </div>
                     <div class="row product__item___display">
                     </div>
-                    {{$product->links("client.pagination.default")}}
+                    <div class="product__pagination" id="paginationContainer">
+                        <a href="javascript:void(0);">1</a>
+                        <a href="javascript:void(0);">2</a>
+                        <a href="javascript:void(0);">3</a>
+                        <a href="javascript:void(0);"><i class="fa fa-long-arrow-right"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,8 +140,9 @@
 
 <script>
     // Gửi yêu cầu lọc sản phẩm
-        function findProductByCategoryId(categoryId) {
-            fetch(`/api/product-by-category-id?category_id=${categoryId}`)
+        function findProductByCategoryId(categoryId, page = 1) {
+            currentPage = page; // Cập nhật trang hiện tại
+            fetch(`/api/product-by-category-id?category_id=${categoryId}&page=${page}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -146,6 +152,7 @@
                 .then(data => {
                     console.log(data)
                     updateProductsView(data);
+                    pagination(currentPage, data.totalPages, categoryId);
                 })
                 .catch(error => {
                     console.error('Fetch error:', error);
@@ -153,29 +160,45 @@
     }
 
     function updateProductsView(products) {
-            const container = document.querySelector('.product__item___display');
-            container.innerHTML = ''; // Xóa các sản phẩm hiện tại
+        const container = document.querySelector('.product__item___display');
+        container.innerHTML = ''; // Xóa các sản phẩm hiện tại
 
-            products.forEach(product => {
-                const productHTML = `
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item__pic set-bg" data-setbg="${product.thumbnail_url}" style="background-image: url(${product.thumbnail_url});">
-                                    <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6><a href="#">${product.name}</a></h6>
-                                    <h5>${product.sell_price} VND</h5>
-                                </div>
-                    </div>
-                `;
-                container.innerHTML += productHTML;
-            });
+        products.forEach(product => {
+            const productHTML = `
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item__pic set-bg" data-setbg="${product.thumbnail_url}" style="background-image: url(${product.thumbnail_url});">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="#">${product.name}</a></h6>
+                                <h5>${product.sell_price} VND</h5>
+                            </div>
+                </div>
+            `;
+            container.innerHTML += productHTML;
+        });
+    }
+
+    function pagination(currentPage, totalPages, categoryId) {
+        const paginationContainer = document.querySelector('#paginationContainer');
+        paginationContainer.innerHTML = ''; // Xóa phân trang hiện tại
+        // Thêm nút "Trước" nếu không phải trang đầu tiên
+        if (currentPage > 1) {
+            paginationContainer.innerHTML += `<a href="javascript:void(0);" onclick="findProductByCategoryId(${categoryId}, ${currentPage - 1})">Trước</a>`;
         }
-
+        // Tạo các số trang
+        for (let i = 1; i <= totalPages; i++) {
+            paginationContainer.innerHTML += `<a href="javascript:void(0);" class="${i === currentPage ? 'active' : ''}" onclick="findProductByCategoryId(${categoryId}, ${i})">${i}</a>`;
+        }
+        // Thêm nút "Sau" nếu không phải trang cuối cùng
+        if (currentPage < totalPages) {
+            paginationContainer.innerHTML += `<a href="javascript:void(0);" onclick="findProductByCategoryId(${categoryId}, ${currentPage + 1})">Sau</a>`;
+        }
+    }
 </script>
 @endsection

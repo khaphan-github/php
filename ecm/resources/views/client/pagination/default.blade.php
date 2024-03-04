@@ -1,3 +1,4 @@
+
 @if($paginator->hasPages())
 <div class="product__pagination" id="paginationContainer">
     @foreach ($elements as $element)
@@ -23,6 +24,5 @@
             @endforeach
         @endif
     @endforeach
-    
 </div>
 @endif
