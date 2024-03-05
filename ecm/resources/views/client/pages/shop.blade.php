@@ -26,10 +26,17 @@
                         <div class="sidebar__item">
                             <h4>Danh mục</h4>
                             <div class="sidebar__item__size">
-                                    @foreach ($category_categories as $cat)
-                                    <label for="large" onclick="findProductByCategoryId({{ $cat->id }})">
+                                @foreach ($category_categories as $cat)
+                                    <label for="large"
+                                        onclick="filterProducts({{ json_encode([
+                                            'categoryId' => $cat->id ?? '',
+                                            'orderBy' => $orderBy ?? 'id',
+                                            'page' => $page ?? 10,
+                                            'size' => $size ?? 0,
+                                            'searchString' => $searchString ?? '',
+                                        ]) }})">
                                         {{ $cat->name }}</label>
-                                    @endforeach
+                                @endforeach
                             </div>
                         </div>
                         <div class="sidebar__item">
@@ -127,10 +134,25 @@
                     <div class="row product__item___display">
                     </div>
                     <div class="product__pagination" id="paginationContainer">
-                        <a href="javascript:void(0);">1</a>
-                        <a href="javascript:void(0);">2</a>
-                        <a href="javascript:void(0);">3</a>
-                        <a href="javascript:void(0);"><i class="fa fa-long-arrow-right"></i></a>
+                        <a
+                            onclick="filterProducts({{ json_encode([
+                                'categoryId' => $categoryId ?? '',
+                                'orderBy' => $orderBy ?? 'id',
+                                'page' => $page - 1 ?? 10,
+                                'size' => $size ?? 0,
+                                'searchString' => $searchString ?? '',
+                            ]) }})"><i
+                                class="fa fa-long-arrow-left"></i></a>
+                        <a>{{ $page }}</a>
+                        <a
+                            onclick="filterProducts({{ json_encode([
+                                'categoryId' => $categoryId ?? '',
+                                'orderBy' => $orderBy ?? 'id',
+                                'page' => $page + 1 ?? 10,
+                                'size' => $size ?? 0,
+                                'searchString' => $searchString ?? '',
+                            ]) }})"><i
+                                class="fa fa-long-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -138,8 +160,8 @@
     </section>
     <!-- Product Section End -->
 
-<script>
-    // Gửi yêu cầu lọc sản phẩm
+    <script>
+        // Gửi yêu cầu lọc sản phẩm
         function findProductByCategoryId(categoryId, page = 1) {
             currentPage = page; // Cập nhật trang hiện tại
             fetch(`/api/product-by-category-id?category_id=${categoryId}&page=${page}`)
@@ -157,15 +179,14 @@
                 .catch(error => {
                     console.error('Fetch error:', error);
                 });
-    }
+        }
 
-    function updateProductsView(products) {
-        const container = document.querySelector('.product__item___display');
-        container.innerHTML = ''; // Xóa các sản phẩm hiện tại
+        function updateProductsView(products) {
+            const container = document.querySelector('.product__item___display');
+            container.innerHTML = ''; // Xóa các sản phẩm hiện tại
 
-        products.forEach(product => {
-            const productHTML = `
-                <div class="row">
+            products.forEach(product => {
+                const productHTML = `
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item__pic set-bg" data-setbg="${product.thumbnail_url}" style="background-image: url(${product.thumbnail_url});">
                                 <ul class="product__item__pic__hover">
@@ -178,27 +199,78 @@
                                 <h6><a href="#">${product.name}</a></h6>
                                 <h5>${product.sell_price} VND</h5>
                             </div>
-                </div>
             `;
-            container.innerHTML += productHTML;
-        });
-    }
+                container.innerHTML += productHTML;
+            });
+        }
 
-    function pagination(currentPage, totalPages, categoryId) {
-        const paginationContainer = document.querySelector('#paginationContainer');
-        paginationContainer.innerHTML = ''; // Xóa phân trang hiện tại
-        // Thêm nút "Trước" nếu không phải trang đầu tiên
-        if (currentPage > 1) {
-            paginationContainer.innerHTML += `<a href="javascript:void(0);" onclick="findProductByCategoryId(${categoryId}, ${currentPage - 1})">Trước</a>`;
+        function pagination(currentPage, totalPages, categoryId) {
+            const paginationContainer = document.querySelector('#paginationContainer');
+            paginationContainer.innerHTML = ''; // Xóa phân trang hiện tại
+            // ThêmfindProductByCategoryId nút "Trước" nếu không phải trang đầu tiên
+            if (currentPage > 1) {
+                paginationContainer.innerHTML +=
+                    `<a href="javascript:void(0);" onclick="(${categoryId}, ${currentPage - 1})">Trước</a>`;
+            }
+            // Tạo các số trang
+            for (let i = 1; i <= totalPages; i++) {
+                paginationContainer.innerHTML +=
+                    `<a href="javascript:void(0);" class="${i === currentPage ? 'active' : ''}" onclick="findProductByCategoryId(${categoryId}, ${i})">${i}</a>`;
+            }
+            // Thêm nút "Sau" nếu không phải trang cuối cùng
+            if (currentPage < totalPages) {
+                paginationContainer.innerHTML +=
+                    `<a href="javascript:void(0);" onclick="findProductByCategoryId(${categoryId}, ${currentPage + 1})">Sau</a>`;
+            }
         }
-        // Tạo các số trang
-        for (let i = 1; i <= totalPages; i++) {
-            paginationContainer.innerHTML += `<a href="javascript:void(0);" class="${i === currentPage ? 'active' : ''}" onclick="findProductByCategoryId(${categoryId}, ${i})">${i}</a>`;
+
+        function filterProducts(inputJson) {
+            console.log(inputJson);
+
+            // Parse the input JSON object
+            const {
+                categoryId,
+                orderby,
+                page,
+                size,
+                searchString
+            } = inputJson;
+
+            // Define the URL of your Laravel API endpoint
+            const apiUrl = 'api/product/filter';
+
+            // Encode the parameters into a query string
+            const requestData = new URLSearchParams({
+                categoryId: categoryId ?? '',
+                orderby: orderby ?? 'id',
+                page: page ?? 1,
+                size: size ?? 10,
+                search_string: searchString ?? ''
+            }).toString();
+            // Send a GET request to the API using Fetch
+            return fetch(apiUrl + '?' + new URLSearchParams(requestData))
+                .then(response => {
+                    // Check if the request was successful
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    // Parse the JSON response
+                    return response.json();
+                })
+                .then(data => {
+                    // Return the data from the API
+                    updateProductsView(data.products);
+                    return data;
+                })
+                .catch(error => {
+                    // Handle errors that occur during the fetch request
+                    updateProductsView([]);
+                    console.error('There was a problem with your fetch operation:', error);
+                    // Return an error object
+                    return {
+                        error: error.message
+                    };
+                });
         }
-        // Thêm nút "Sau" nếu không phải trang cuối cùng
-        if (currentPage < totalPages) {
-            paginationContainer.innerHTML += `<a href="javascript:void(0);" onclick="findProductByCategoryId(${categoryId}, ${currentPage + 1})">Sau</a>`;
-        }
-    }
-</script>
+    </script>
 @endsection
