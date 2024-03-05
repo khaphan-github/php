@@ -42,7 +42,7 @@ class AdminCategoryController extends Controller
 
         return view('admin/category/table', $templateVariables);
     }
-    
+
     public function createFunction(Request $request)
     {
         $request->validate([

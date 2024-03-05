@@ -123,7 +123,7 @@ class AdminProductsController extends Controller
     }
 
 
-    public function updateFunction(Request $request)
+    public function updateFunction(Request $request,)
     {
         $request->validate([
 

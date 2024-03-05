@@ -75,12 +75,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Category
 	Route::get('/admin/category', [AdminCategoryController::class, 'filterPage'])->name('categories.filter');
-	Route::post('/admin/category', [AdminCategoryController::class, 'createFunction'])->name('categories.createFunction');
-	Route::put('/admin/category', [AdminCategoryController::class, 'updateFunction'])->name('categories.updateFunction');
+	Route::post('/admin/category/store', [AdminCategoryController::class, 'createFunction'])->name('categories.create');
+	Route::post('/admin/category/update', [AdminCategoryController::class, 'updateFunction'])->name('categories.update');
 	Route::get('/admin/category/delete/{id}', [AdminCategoryController::class, 'deleteFunction']);
 
 	Route::get('/admin/products', [AdminProductsController::class, 'filterPage'])->name('products.filter');
-	Route::post('/admin/products/create', [AdminProductsController::class, 'createFunction'])->name('products.createFunction');
+	Route::post('/admin/products', [AdminProductsController::class, 'createFunction'])->name('products.createFunction');
 	Route::post('/admin/products/update', [AdminProductsController::class, 'updateFunction'])->name('products.updateFunction');
 	Route::get('/admin/products/delete/{id}', [AdminProductsController::class, 'deleteFunction']);
 });

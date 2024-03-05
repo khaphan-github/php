@@ -1,11 +1,32 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
+    {{-- Full screen modal --}}
+    <div class="modal fade" id="fullScreenModal" tabindex="-1" aria-labelledby="fullScreenModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="font-weight-bolder mb-0">
+                        Quản lý chi tiết</h5>
+                    <p class="mb-0 text-sm"></p>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0 text"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Full screen modal --}}
+
     <!-- Modal Create-->
     <div class="modal fade" id="createDataModal" tabindex="-1" aria-labelledby="createDataModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('categories.createFunction') }}" method="POST">
+                <form action="{{ url('/admin/category/store') }}" method="POST">
                     {!! csrf_field() !!}
 
                     <div class="modal-header">
@@ -20,8 +41,8 @@
 
                         <div class="mb-3">
                             <label for="icon" class="form-label">Icon</label>
-                            <select class="form-select" id="parent_category_id" name="icon">
-                                <option>__</option>
+                            <select class="form-select" id="icon" name="icon">
+                                <option></option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -48,7 +69,7 @@
     <div class="modal fade" id="updateDataModal" tabindex="-1" aria-labelledby="updateDataModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateForm" action="{{ route('categories.updateFunction') }}" method="PUT">
+                <form id="updateForm" action="{{ url('admin/category/update') }}" method="POST">
                     {!! csrf_field() !!}
                     <div class="modal-header">
                         <h5 class="font-weight-bolder mb-0">Chỉnh sửa thông tin</h5>
@@ -89,7 +110,8 @@
     <!-- Modal Update -->
 
     <!-- Confirm Delete -->
-    <div class="modal fade" id="deleteDataModal" tabindex="-1" aria-labelledby="deleteDataModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteDataModal" tabindex="-1" aria-labelledby="deleteDataModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -109,6 +131,7 @@
     </div>
     <!-- Confirm Delete -->
 
+
     <div>
         <div class="row">
             <div class="col-12">
@@ -125,13 +148,13 @@
                                 <div class="input-group">
                                     <span class="input-group-text text-body"><i class="fas fa-search"
                                             aria-hidden="true"></i></span>
-                                    <input type="text" id="searchInput" class="form-control form-control-sm"
+                                    <input type="text" id="searchInput" class="form-control form-control"
                                         placeholder="Tìm kiếm" onkeypress="search(event)" value="{{ $searchQuery }}">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="d-flex justify-content-start">
-                                    <button type="button" class="btn bg-gradient-primary btn-sm mb-0"
+                                    <button type="button" class="btn bg-gradient-primary btn mb-0"
                                         data-bs-toggle="modal" data-bs-target="#createDataModal">
                                         +&nbsp; Thêm mới
                                     </button>
@@ -209,19 +232,28 @@
                                                     <p class="text-xs font-weight-bold mb-0">{{ $item->updated_at }}</p>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="mx-3"
+                                                    <span class="mx-1"
                                                         onclick="handleUpdateData({{ json_encode($item) }})"
                                                         data-bs-toggle="modal" data-bs-target="#updateDataModal"
                                                         data-bs-original-title="Chỉnh sửa thông tin">
-                                                        <i class="fas fa-user-edit text-secondary">
+                                                        <i class="cursor-pointer fas fa-edit text-secondary">
                                                         </i>
                                                     </span>
                                                     <span>
                                                         <span onclick="handleDeleteData({{ json_encode($item) }})"
-                                                            class="mx-3" data-bs-toggle="modal"
+                                                            class="mx-1" data-bs-toggle="modal"
                                                             data-bs-target="#deleteDataModal"
                                                             data-bs-original-title="Xóa thông tin">
                                                             <i class="cursor-pointer fas fa-trash text-secondary"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span>
+                                                        <span class="mx-1" data-bs-toggle="modal"
+                                                            data-bs-target="#fullScreenModal"
+                                                            data-bs-original-title="Fullscreen">
+                                                            <i class="cursor-pointer fa fa-window-maximize"
+                                                                aria-hidden="true"></i>
+
                                                         </span>
                                                     </span>
                                                 </td>
