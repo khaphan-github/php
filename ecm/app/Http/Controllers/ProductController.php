@@ -68,4 +68,6 @@ class ProductController extends Controller
         // Return the products as JSON
         return response()->json(['products' => $products]);
     }
+
+    
 }

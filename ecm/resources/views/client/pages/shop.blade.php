@@ -112,15 +112,27 @@
                             <div class="col-lg-4 col-md-5">
                                 <div class="filter__sort">
                                     <span>Sắp xếp theo</span>
-                                    <select>
-                                        <option value="0">Giá tăng dần</option>
-                                        <option value="0">Giá giảm dần</option>
+                                    <select name="orderby" id="orderby">
+                                        <option onclick="filterProducts({{ json_encode([
+                                                'categoryId' => $categoryId ?? '',
+                                                'orderBy' => 'price_asc',
+                                                'page' => 1,
+                                                'size' => 10,
+                                                'searchString' => $searchString ?? '',
+                                            ]) }})" value="price_asc">Giá tăng dần</option>
+                                        <option onclick="filterProducts({{ json_encode([
+                                                'categoryId' => $categoryId ?? '',
+                                                'orderBy' => 'price_desc',
+                                                'page' => 1,
+                                                'size' => 10,
+                                                'searchString' => $searchString ?? '',
+                                            ]) }})"value="price_desc">Giá giảm dần</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span>16</span> Products found</h6>
+                                    <h6><span>{{ $total }}</span> Sản Phẩm</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">
@@ -162,25 +174,6 @@
 
     <script>
         // Gửi yêu cầu lọc sản phẩm
-        function findProductByCategoryId(categoryId, page = 1) {
-            currentPage = page; // Cập nhật trang hiện tại
-            fetch(`/api/product-by-category-id?category_id=${categoryId}&page=${page}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data)
-                    updateProductsView(data);
-                    pagination(currentPage, data.totalPages, categoryId);
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                });
-        }
-
         function updateProductsView(products) {
             const container = document.querySelector('.product__item___display');
             container.innerHTML = ''; // Xóa các sản phẩm hiện tại
@@ -202,26 +195,6 @@
             `;
                 container.innerHTML += productHTML;
             });
-        }
-
-        function pagination(currentPage, totalPages, categoryId) {
-            const paginationContainer = document.querySelector('#paginationContainer');
-            paginationContainer.innerHTML = ''; // Xóa phân trang hiện tại
-            // ThêmfindProductByCategoryId nút "Trước" nếu không phải trang đầu tiên
-            if (currentPage > 1) {
-                paginationContainer.innerHTML +=
-                    `<a href="javascript:void(0);" onclick="(${categoryId}, ${currentPage - 1})">Trước</a>`;
-            }
-            // Tạo các số trang
-            for (let i = 1; i <= totalPages; i++) {
-                paginationContainer.innerHTML +=
-                    `<a href="javascript:void(0);" class="${i === currentPage ? 'active' : ''}" onclick="findProductByCategoryId(${categoryId}, ${i})">${i}</a>`;
-            }
-            // Thêm nút "Sau" nếu không phải trang cuối cùng
-            if (currentPage < totalPages) {
-                paginationContainer.innerHTML +=
-                    `<a href="javascript:void(0);" onclick="findProductByCategoryId(${categoryId}, ${currentPage + 1})">Sau</a>`;
-            }
         }
 
         function filterProducts(inputJson) {

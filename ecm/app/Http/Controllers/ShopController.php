@@ -23,6 +23,9 @@ class ShopController extends Controller
         $products =
             DB::table('product')->select('*')->limit((10));
 
+        $totalProducts = $products->count();
+
+
         // Chuẩn bị biến để truyền sang view
         $templateVariables = [
             'product' => $products,
@@ -32,6 +35,7 @@ class ShopController extends Controller
             'orderBy' => null,
             'page' => 1,
             'size' => 10,
+            'total' => $totalProducts,
             'searchString' => null,
             'products' => $products,
         ];
@@ -60,10 +64,23 @@ class ShopController extends Controller
             $query->where('name', 'like', '%' . $searchString . '%');
         }
 
+        // Apply order by condition based on the request
+        switch ($orderby) {
+            case 'price_asc':
+                $query->orderBy('sell_price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('sell_price', 'desc');
+                break;
+            default:
+                // Mặc định sắp xếp theo cột được chỉ định trong $orderby, hoặc bạn có thể đặt một cột cụ thể ở đây
+                $query->orderBy($orderby);
+                break;
+        }
+
         $totalProducts = $query->count();
 
         $products = $query
-            ->orderBy($orderby)
             ->skip(($page - 1) * $size)
             ->take($size)
             ->get();
