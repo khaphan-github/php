@@ -5,7 +5,7 @@
     <div class="modal fade" id="createDataModal" tabindex="-1" aria-labelledby="createDataModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('categories.createFunction') }}" method="POST">
+                <form action="{{ route('products.createFunction') }}" method="POST">
                     {!! csrf_field() !!}
 
                     <div class="modal-header">
@@ -13,26 +13,62 @@
                         <p class="mb-0 text-sm"></p>
                     </div>
                     <div class="modal-body">
+
                         <div class="mb-3">
-                            <label for="name" class="form-label">Tên danh mục</label>
+                            <label for="name" class="form-label">Tên</label>
                             <input type="text" class="form-control" id="name" name="name">
                         </div>
 
                         <div class="mb-3">
-                            <label for="icon" class="form-label">Icon</label>
-                            <select class="form-select" id="parent_category_id" name="icon">
-                                <option>__</option>
-                            </select>
+                            <label for="description" class="form-label">Mô tả</label>
+                            <input type="text" class="form-control" id="description" name="description">
                         </div>
+
                         <div class="mb-3">
-                            <label for="parent_category_id" class="form-label">Danh mục cha</label>
-                            <select class="form-select" id="parent_category_id" name="parent_category_id">
-                                <option value="">--Trống--</option>
-                                @foreach ($listItem as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
+                            <label for="sell_price" class="form-label">Giá bán</label>
+                            <input type="text" class="form-control" id="sell_price" name="sell_price">
                         </div>
+
+                        <div class="mb-3">
+                            <label for="stock_quentity" class="form-label">Số lượng tồn</label>
+                            <input type="text" class="form-control" id="stock_quentity" name="stock_quentity">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category_id" class="form-label">ID Danh mục</label>
+                            <input type="text" class="form-control" id="category_id" name="category_id">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="original_price" class="form-label">Giá gốc</label>
+                            <input type="text" class="form-control" id="original_price" name="original_price">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="discount_price" class="form-label">Giá giảm</label>
+                            <input type="text" class="form-control" id="discount_price" name="discount_price">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="thumbnail_url" class="form-label">URL ảnh đại diện</label>
+                            <input type="text" class="form-control" id="thumbnail_url" name="thumbnail_url">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="detail_info" class="form-label">Thông tin chi tiết</label>
+                            <input type="text" class="form-control" id="detail_info" name="detail_info">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="created_at" class="form-label">Ngày tạo</label>
+                            <input type="text" class="form-control" id="created_at" name="created_at">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="updated_at" class="form-label">Ngày cập nhật</label>
+                            <input type="text" class="form-control" id="updated_at" name="updated_at">
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -48,7 +84,7 @@
     <div class="modal fade" id="updateDataModal" tabindex="-1" aria-labelledby="updateDataModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateForm" action="{{ route('categories.updateFunction') }}" method="PUT">
+                <form id="updateForm" action="{{ route('products.updateFunction') }}" method="POST">
                     {!! csrf_field() !!}
                     <div class="modal-header">
                         <h5 class="font-weight-bolder mb-0">Chỉnh sửa thông tin</h5>
@@ -58,25 +94,64 @@
                         <input type="hidden" id="update_form_id" name="id">
 
                         <div class="mb-3">
-                            <label for="name" class="form-label">Tên danh mục</label>
+                            <label for="name" class="form-label">Tên</label>
                             <input type="text" class="form-control" id="update_form_name" name="name">
                         </div>
 
                         <div class="mb-3">
-                            <label for="icon" class="form-label">Icon</label>
-                            <select class="form-select" id="update_form_icon" name="icon">
-                                <option>__</option>
-                            </select>
+                            <label for="description" class="form-label">Mô tả</label>
+                            <input type="text" class="form-control" id="update_form_description" name="description">
                         </div>
+
                         <div class="mb-3">
-                            <label for="parent_category_id" class="form-label">Danh mục cha</label>
-                            <select class="form-select" id="update_form_parent_category_id" name="parent_category_id">
-                                <option value="">--Trống--</option>
-                                @foreach ($listItem as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
+                            <label for="sell_price" class="form-label">Giá bán</label>
+                            <input type="text" class="form-control" id="update_form_sell_price" name="sell_price">
                         </div>
+
+                        <div class="mb-3">
+                            <label for="stock_quentity" class="form-label">Số lượng tồn</label>
+                            <input type="text" class="form-control" id="update_form_stock_quentity"
+                                name="stock_quentity">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category_id" class="form-label">ID Danh mục</label>
+                            <input type="text" class="form-control" id="update_form_category_id" name="category_id">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="original_price" class="form-label">Giá gốc</label>
+                            <input type="text" class="form-control" id="update_form_original_price"
+                                name="original_price">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="discount_price" class="form-label">Giá giảm</label>
+                            <input type="text" class="form-control" id="update_form_discount_price"
+                                name="discount_price">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="thumbnail_url" class="form-label">URL ảnh đại diện</label>
+                            <input type="text" class="form-control" id="update_form_thumbnail_url"
+                                name="thumbnail_url">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="detail_info" class="form-label">Thông tin chi tiết</label>
+                            <input type="text" class="form-control" id="update_form_detail_info" name="detail_info">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="created_at" class="form-label">Ngày tạo</label>
+                            <input type="text" class="form-control" id="update_form_created_at" name="created_at">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="updated_at" class="form-label">Ngày cập nhật</label>
+                            <input type="text" class="form-control" id="update_form_updated_at" name="updated_at">
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -89,7 +164,8 @@
     <!-- Modal Update -->
 
     <!-- Confirm Delete -->
-    <div class="modal fade" id="deleteDataModal" tabindex="-1" aria-labelledby="deleteDataModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteDataModal" tabindex="-1" aria-labelledby="deleteDataModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -160,22 +236,63 @@
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Thứ tự
                                         </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Mã
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Hình ảnh
-                                        </th>
+
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Tên
                                         </th>
+
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Lần cập nhật mới nhất
+                                            Mô tả
                                         </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Giá bán
+                                        </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Số lượng tồn
+                                        </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            ID Danh mục
+                                        </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Giá gốc
+                                        </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Giá giảm
+                                        </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            URL ảnh đại diện
+                                        </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Thông tin chi tiết
+                                        </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Ngày tạo
+                                        </th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Ngày cập nhật
+                                        </th>
+
+
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Hành động
@@ -196,18 +313,56 @@
                                                 <td class="text-center">
                                                     <p class="text-xs font-weight-bold mb-0">STT.{{ $index + 1 }}</p>
                                                 </td>
-                                                <td class="text-center">
-                                                    <p class="text-xs font-weight-bold mb-0">CT.{{ $item->id }}</p>
-                                                </td>
-                                                <td class="text-center">
-                                                    <img src="{{ $item->icon }}" class="avatar avatar-sm me-3">
-                                                </td>
+
                                                 <td class="text-center">
                                                     <p class="text-xs font-weight-bold mb-0">{{ $item->name }}</p>
                                                 </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->description }}</p>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->sell_price }}</p>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->stock_quentity }}
+                                                    </p>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->category_id }}</p>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->original_price }}
+                                                    </p>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->discount_price }}
+                                                    </p>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->thumbnail_url }}
+                                                    </p>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->detail_info }}</p>
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <p class="text-xs font-weight-bold mb-0">{{ $item->created_at }}</p>
+                                                </td>
+
                                                 <td class="text-center">
                                                     <p class="text-xs font-weight-bold mb-0">{{ $item->updated_at }}</p>
                                                 </td>
+
+
                                                 <td class="text-center">
                                                     <span class="mx-3"
                                                         onclick="handleUpdateData({{ json_encode($item) }})"
@@ -244,9 +399,29 @@
         function handleUpdateData(item) {
             setTimeout(() => {
                 document.getElementById('update_form_id').value = item.id;
+
                 document.getElementById('update_form_name').value = item.name;
-                document.getElementById('update_form_icon').value = item.icon;
-                document.getElementById('update_form_parent_category_id').value = item.parent_category_id;
+
+                document.getElementById('update_form_description').value = item.description;
+
+                document.getElementById('update_form_sell_price').value = item.sell_price;
+
+                document.getElementById('update_form_stock_quentity').value = item.stock_quentity;
+
+                document.getElementById('update_form_category_id').value = item.category_id;
+
+                document.getElementById('update_form_original_price').value = item.original_price;
+
+                document.getElementById('update_form_discount_price').value = item.discount_price;
+
+                document.getElementById('update_form_thumbnail_url').value = item.thumbnail_url;
+
+                document.getElementById('update_form_detail_info').value = item.detail_info;
+
+                document.getElementById('update_form_created_at').value = item.created_at;
+
+                document.getElementById('update_form_updated_at').value = item.updated_at;
+
             }, 200);
         }
 
@@ -257,32 +432,32 @@
         }
 
         function confirmDelete() {
-            window.location.href = "/admin/category/delete/" + document.getElementById('delete_form_id').value;
+            window.location.href = "/admin/products/delete/" + document.getElementById('delete_form_id').value;
         }
 
         function goToPreviousPage(currentPage) {
             if (currentPage > 1) {
-                window.location.href = "{{ route('categories.filter') }}?page=" + (currentPage - 1) +
+                window.location.href = "{{ route('products.filter') }}?page=" + (currentPage - 1) +
                     "&size={{ $perPage }}&s={{ $searchQuery }}";
             }
         }
 
         function goToNextPage(currentPage, totalPages) {
             if (currentPage < totalPages) {
-                window.location.href = "{{ route('categories.filter') }}?page=" + (currentPage + 1) +
+                window.location.href = "{{ route('products.filter') }}?page=" + (currentPage + 1) +
                     "&size={{ $perPage }}&s={{ $searchQuery }}";
             }
         }
 
         function search(query) {
             if (query.target.value) {
-                let url = "{{ route('categories.filter') }}";
+                let url = "{{ route('products.filter') }}";
                 let queryParams = new URLSearchParams(window.location.search);
                 queryParams.set('s', query.target.value);
                 queryParams.delete('page');
                 window.location.href = url + '?' + queryParams.toString();
             } else {
-                window.location.href = "{{ route('categories.filter') }}";
+                window.location.href = "{{ route('products.filter') }}";
             }
         }
     </script>

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
@@ -76,6 +78,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/admin/category', [AdminCategoryController::class, 'createFunction'])->name('categories.createFunction');
 	Route::put('/admin/category', [AdminCategoryController::class, 'updateFunction'])->name('categories.updateFunction');
 	Route::get('/admin/category/delete/{id}', [AdminCategoryController::class, 'deleteFunction']);
+
+	Route::get('/admin/products', [AdminProductsController::class, 'filterPage'])->name('products.filter');
+	Route::post('/admin/products/create', [AdminProductsController::class, 'createFunction'])->name('products.createFunction');
+	Route::post('/admin/products/update', [AdminProductsController::class, 'updateFunction'])->name('products.updateFunction');
+	Route::get('/admin/products/delete/{id}', [AdminProductsController::class, 'deleteFunction']);
 });
 
 
