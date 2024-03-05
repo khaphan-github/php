@@ -135,7 +135,7 @@
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             @foreach ($product as $product)
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" style="background-image: url('{{ $product->thumbnail_url }}');">
+                                <div class="product__item__pic set-bg" style="background-image: url('{{ asset($product->thumbnail_url) }}');">
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="#">{{ $product->name }}</a></h6>
-                                    <h5>{{ number_format($product->sell_price, 2) }}VNĐ </h5>
+                                    <h5>{{ number_format($product->sell_price, 3) }}VNĐ </h5>
                                 </div>
                             </div>
                             @endforeach
@@ -253,10 +253,11 @@
 
         function changeSortOrder() {
             var orderby = document.getElementById('orderby').value;
-            // Xây dựng URL mới với tham số orderby
-            var newUrl = window.location.pathname + '?orderby=' + orderby;
-            // Chuyển hướng người dùng đến URL mới
-            window.location.href = newUrl;
-}
+            // Define parameters based on the selected sort order
+            var params = {
+                orderby: orderby,
+            };
+            filterProducts(params); // Call filterProducts function with the new parameters
+        }
     </script>
 @endsection
