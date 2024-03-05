@@ -132,23 +132,6 @@
                         </div>
                     </div>
                     <div class="row product__item___display">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            @foreach ($product as $product)
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" style="background-image: url('{{ asset($product->thumbnail_url) }}');">
-                                    <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6><a href="#">{{ $product->name }}</a></h6>
-                                    <h5>{{ number_format($product->sell_price, 3) }}VNĐ </h5>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
                     </div>
                     <div class="product__pagination" id="paginationContainer">
                         <a
@@ -178,6 +161,17 @@
     <!-- Product Section End -->
 
     <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            filterProducts({
+                categoryId: '',
+                orderBy: 'id',
+                page: 1,
+                size: 10,
+                searchString: ''
+            });
+        });
+
         // Gửi yêu cầu lọc sản phẩm
         function updateProductsView(products) {
             const container = document.querySelector('.product__item___display');
