@@ -18,10 +18,12 @@ class ShopController extends Controller
         // Lấy danh sách danh mục từ database
         $categories = DB::table('category')->get();
 
+        $orderBy = $request->input('orderBy', 'id');
+        $sort = $request->input('sort', 'asc'); // Giả sử giá trị mặc định là 'asc'
+
         // Khởi tạo query để lấy sản phẩm
         // Thực thi truy vấn và lấy kết quả
-        $products =
-            DB::table('product')->select('*')->limit((10));
+        $products = DB::table('product')->orderBy($orderBy, $sort)->paginate(10); 
 
         $totalProducts = $products->count();
 
@@ -32,7 +34,7 @@ class ShopController extends Controller
             'category_categories' => $categories,
             'category' => $categories,
             'categoryId' => null,
-            'orderBy' => null,
+            'orderBy' => $orderBy,
             'page' => 1,
             'size' => 10,
             'total' => $totalProducts,

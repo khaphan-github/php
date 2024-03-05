@@ -112,21 +112,9 @@
                             <div class="col-lg-4 col-md-5">
                                 <div class="filter__sort">
                                     <span>Sắp xếp theo</span>
-                                    <select name="orderby" id="orderby">
-                                        <option onclick="filterProducts({{ json_encode([
-                                                'categoryId' => $categoryId ?? '',
-                                                'orderBy' => 'price_asc',
-                                                'page' => 1,
-                                                'size' => 10,
-                                                'searchString' => $searchString ?? '',
-                                            ]) }})" value="price_asc">Giá tăng dần</option>
-                                        <option onclick="filterProducts({{ json_encode([
-                                                'categoryId' => $categoryId ?? '',
-                                                'orderBy' => 'price_desc',
-                                                'page' => 1,
-                                                'size' => 10,
-                                                'searchString' => $searchString ?? '',
-                                            ]) }})"value="price_desc">Giá giảm dần</option>
+                                    <select name="orderby" id="orderby" onchange="changeSortOrder()">
+                                        <option value="price_asc" {{ request('orderby') == 'price_asc' ? 'selected' : '' }}>Giá tăng dần</option>
+                                        <option value="price_desc" {{ request('orderby') == 'price_desc' ? 'selected' : '' }}>Giá giảm dần</option>
                                     </select>
                                 </div>
                             </div>
@@ -144,6 +132,23 @@
                         </div>
                     </div>
                     <div class="row product__item___display">
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            @foreach ($product as $product)
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" style="background-image: url('{{ $product->thumbnail_url }}');">
+                                    <ul class="product__item__pic__hover">
+                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a href="#">{{ $product->name }}</a></h6>
+                                    <h5>{{ number_format($product->sell_price, 2) }}VNĐ </h5>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="product__pagination" id="paginationContainer">
                         <a
@@ -245,5 +250,13 @@
                     };
                 });
         }
+
+        function changeSortOrder() {
+            var orderby = document.getElementById('orderby').value;
+            // Xây dựng URL mới với tham số orderby
+            var newUrl = window.location.pathname + '?orderby=' + orderby;
+            // Chuyển hướng người dùng đến URL mới
+            window.location.href = newUrl;
+}
     </script>
 @endsection
