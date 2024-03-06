@@ -252,12 +252,15 @@
             filterProducts(params); // Call filterProducts function with the new parameters
         }
 
+        var addToCartUrl = "{{ route('add-to-cart') }}";
+        var csrfToken = "{{ csrf_token() }}";
+
         function addToCart(productId) {
-            fetch('{{ route("add-to-cart") }}', {
+            fetch(addToCartUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Đảm bảo bạn đã include CSRF token trong blade template của bạn
+                    'X-CSRF-TOKEN': csrfToken // Đảm bảo bạn đã include CSRF token trong blade template của bạn
                 },
                 body: JSON.stringify({
                     productId: productId
@@ -266,7 +269,13 @@
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                // Cập nhật UI hoặc thông báo tới người dùng ở đây
+                
+                // Kiểm tra nếu sản phẩm được thêm thành công
+                if (data.success) {
+                    console.log("Sản phẩm đã được thêm vào giỏ hàng thành công!");
+                } else {
+                    console.log("Có lỗi xảy ra, không thể thêm sản phẩm vào giỏ hàng.");
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);

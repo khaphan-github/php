@@ -26,14 +26,14 @@ class CartController extends Controller
         // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
         if (isset($cart[$id])) {
             // Nếu có, tăng số lượng
-            $cart[$id]['quantity']++;
+            $cart[$id]['number_of_item']++;
         } else {
             // Nếu chưa, thêm mới sản phẩm vào giỏ hàng với số lượng là 1
             $cart[$id] = [
                 "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->price,
-                "image" => $product->image
+                "number_of_item" => 1,
+                "sell_price" => $product->sell_price,
+                "thumbnail_url" => $product->thumbnail_url
             ];
         }
         
@@ -59,7 +59,7 @@ class CartController extends Controller
     {
         $cart = Session::get('cart', []);
         if(isset($cart[$request->id])) {
-            $cart[$request->id]['quantity'] = $request->quantity;
+            $cart[$request->id]['number_of_item'] = $request->number_of_item;
             Session::put('cart', $cart);
         }
         return back()->with('success', 'Cart updated successfully!');
