@@ -4,20 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
-        $id = $request->input('id');
-        $product = Product::find($request->id);
+        // Lấy ID sản phẩm từ request
+        $id = $request->input('productId');
+
+        // Tìm sản phẩm dựa trên ID
+        $product = DB::table('product')->where('id', $id)->first();
+        
+        if (!$product) {
+            return response()->json(['error' => 'Product not found!'], 404);
+        }
+
+        // Lấy giỏ hàng hiện tại từ session hoặc khởi tạo nếu chưa có
         $cart = Session::get('cart', []);
 
-        if(isset($cart[$product->id])) {
-            $cart[$product->id]['quantity']++;
+        // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
+        if (isset($cart[$id])) {
+            // Nếu có, tăng số lượng
+            $cart[$id]['quantity']++;
         } else {
-            $cart[$product->id] = [
+            // Nếu chưa, thêm mới sản phẩm vào giỏ hàng với số lượng là 1
+            $cart[$id] = [
                 "name" => $product->name,
                 "quantity" => 1,
                 "price" => $product->price,
@@ -25,9 +37,13 @@ class CartController extends Controller
             ];
         }
         
+        // Cập nhật giỏ hàng trong session
         Session::put('cart', $cart);
+
+        // Trả về response thành công
         return response()->json(['success' => 'Product added to cart successfully!']);
     }
+
 
     public function removeFromCart(Request $request)
     {

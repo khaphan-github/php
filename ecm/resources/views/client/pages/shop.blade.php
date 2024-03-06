@@ -182,7 +182,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item__pic set-bg" data-setbg="${product.thumbnail_url}" style="background-image: url(${product.thumbnail_url});">
                                 <ul class="product__item__pic__hover">
-                                    <li><a href="#" class="add-to-cart-btn" data-product-id="${product.id}"><i class="fa fa-shopping-cart"></i>Thêm Sản Phẩm Vào Giỏ Hàng</a></li>
+                                     <li><a href="javascript:void(0);" class="add-to-cart-btn" data-product-id="${product.id}" onclick="addToCart(${product.id})"><i class="fa fa-shopping-cart"></i>Thêm Sản Phẩm Vào Giỏ Hàng</a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
@@ -252,41 +252,26 @@
             filterProducts(params); // Call filterProducts function with the new parameters
         }
 
-        function initializeAddToCartButtons() {
-            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const productId = this.getAttribute('data-product-id');
-                    addToCart(productId);
-                });
-            });
-        }
-
         function addToCart(productId) {
-            fetch(`/cart/add/${productId}`, {
+            fetch('{{ route("add-to-cart") }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Cập nhật token CSRF ở đây
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Đảm bảo bạn đã include CSRF token trong blade template của bạn
                 },
-                body: JSON.stringify({ id: productId })
+                body: JSON.stringify({
+                    productId: productId
+                })
             })
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if (data.success) {
-                    console.log('Sản phẩm đã được thêm vào giỏ hàng!');
-                }
+                // Cập nhật UI hoặc thông báo tới người dùng ở đây
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
             });
         }
-
-        document.addEventListener('DOMContentLoaded', initializeAddToCartButtons);
 
 
     </script>

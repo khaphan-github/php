@@ -109,7 +109,7 @@ Route::view('/shop-details', 'client/pages/shop-details');
 Route::view('/NotFoundItem', 'client/pages/NotFoundItem');
 Route::get('/', [ProductController::class, 'home'])->name('home');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
-Route::post('/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/add-to-cart', 'App\Http\Controllers\CartController@addtoCart')->name('add-to-cart');
 Route::get('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 Route::post('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
