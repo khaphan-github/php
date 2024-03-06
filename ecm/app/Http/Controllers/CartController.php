@@ -27,6 +27,15 @@ class CartController extends Controller
         if (isset($cart[$id])) {
             // Nếu có, tăng số lượng
             $cart[$id]['number_of_item']++;
+
+            // Cập nhật giỏ hàng trong session
+            Session::put('cart', $cart);
+
+            // Cập nhật số lượng trong cơ sở dữ liệu
+            DB::table('cart')
+                ->where('product_id', $id)
+                ->increment('number_of_item');
+
         } else {
             // Nếu chưa, thêm mới sản phẩm vào giỏ hàng với số lượng là 1
             $cart[$id] = [
@@ -35,14 +44,23 @@ class CartController extends Controller
                 "sell_price" => $product->sell_price,
                 "thumbnail_url" => $product->thumbnail_url
             ];
+
+            // Cập nhật giỏ hàng trong session
+            Session::put('cart', $cart);
+
+            // Thêm mới bản ghi vào cơ sở dữ liệu
+            DB::table('cart')->insert([
+                'product_id' => $id,
+                'number_of_item' => 1,
+            ]);
         }
         
-        // Cập nhật giỏ hàng trong session
-        Session::put('cart', $cart);
-
         // Trả về response thành công
-        return response()->json(['success' => 'Product added to cart successfully!']);
-    }
+        return response()->json(['product_id' => $id,
+                                'name' => $product->name,
+                                'number_of_item' => 1,
+                                'sell_price' => $product->sell_price,
+                                'thumbnail_url' => $product->thumbnail_url]);}
 
 
     public function removeFromCart(Request $request)
