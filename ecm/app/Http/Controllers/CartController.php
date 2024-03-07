@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+
+class CartController extends Controller
+{
+    public function addToCart(Request $request)
+    {
+        // Lấy ID sản phẩm từ request
+        $id = $request->input('productId');
+
+        // Tìm sản phẩm dựa trên ID
+        $product = DB::table('product')->where('id', $id)->first();
+        
+        if (!$product) {
+            return response()->json(['error' => 'Product not found!'], 404);
+        }
+
+        // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
+        $existingCartItem = DB::table('cart')->where('product_id', $id)->first();
+
+        if ($existingCartItem) {
+            // Nếu có, tăng số lượng trong cơ sở dữ liệu và cập nhật thời gian cập nhật
+            DB::table('cart')
+                ->updateOrInsert(
+                    ['product_id' => $id],
+                    ['number_of_item' => DB::raw('number_of_item + 1'), 'updated_at' => now()]
+                );
+
+            // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
+            $created_at = $existingCartItem->created_at;
+            $updated_at = now();
+
+
+        } else {
+            // Nếu chưa, thêm mới sản phẩm vào giỏ hàng với số lượng là 1 trong cơ sở dữ liệu
+            DB::table('cart')->insert([
+                'product_id' => $id,
+                'number_of_item' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
+            $created_at = now();
+            $updated_at = now();
+        }
+        // Trả về response thành công
+        return response()->json(['product_id' => $id,
+                                'name' => $product->name,
+                                'number_of_item' => $existingCartItem ? $existingCartItem->number_of_item + 1 : 1,
+                                'sell_price' => $product->sell_price,
+                                'thumbnail_url' => $product->thumbnail_url,
+                                'created_at' => $created_at,
+                                'updated_at' => $updated_at,
+                                'success'=> true]);}
+
+
+    public function removeFromCart(Request $request)
+    {
+        $cart = Session::get('cart', []);
+        if(isset($cart[$request->id])) {
+            unset($cart[$request->id]);
+            Session::put('cart', $cart);
+        }
+        return back()->with('success', 'Product removed from cart successfully!');
+    }
+
+    public function updateCart(Request $request)
+    {
+        $cart = Session::get('cart', []);
+        if(isset($cart[$request->id])) {
+            $cart[$request->id]['number_of_item'] = $request->number_of_item;
+            Session::put('cart', $cart);
+        }
+        return back()->with('success', 'Cart updated successfully!');
+    }
+
+    // Hiển thị trang giỏ hàng với sản phẩm đã thêm
+    public function showCart()
+    {
+        $cart = Session::get('cart', []);
+        return view('client.pages.cart', ['cart' => $cart]);
+    }
+}

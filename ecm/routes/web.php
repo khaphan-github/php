@@ -8,9 +8,8 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\TestController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -107,3 +106,11 @@ Route::view('/blog-details', 'client/pages/blog-details');
 Route::view('/checkout', 'client/pages/checkout');
 Route::view('/shop-cart', 'client/pages/shop-cart');
 Route::view('/shop-details', 'client/pages/shop-details');
+Route::view('/NotFoundItem', 'client/pages/NotFoundItem');
+Route::get('/', [ProductController::class, 'home'])->name('home');
+Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
+Route::post('/add-to-cart', 'App\Http\Controllers\CartController@addtoCart')->name('add-to-cart');
+Route::get('/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::post('/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+
