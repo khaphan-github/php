@@ -20,47 +20,44 @@ class CartController extends Controller
             return response()->json(['error' => 'Product not found!'], 404);
         }
 
-        // Lấy giỏ hàng hiện tại từ session hoặc khởi tạo nếu chưa có
-        $cart = Session::get('cart', []);
-
         // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
-        if (isset($cart[$id])) {
-            // Nếu có, tăng số lượng
-            $cart[$id]['number_of_item']++;
+        $existingCartItem = DB::table('cart')->where('product_id', $id)->first();
 
-            // Cập nhật giỏ hàng trong session
-            Session::put('cart', $cart);
-
-            // Cập nhật số lượng trong cơ sở dữ liệu
+        if ($existingCartItem) {
+            // Nếu có, tăng số lượng trong cơ sở dữ liệu và cập nhật thời gian cập nhật
             DB::table('cart')
-                ->where('product_id', $id)
-                ->increment('number_of_item');
+                ->updateOrInsert(
+                    ['product_id' => $id],
+                    ['number_of_item' => DB::raw('number_of_item + 1'), 'updated_at' => now()]
+                );
+
+            // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
+            $created_at = $existingCartItem->created_at;
+            $updated_at = now();
+
 
         } else {
-            // Nếu chưa, thêm mới sản phẩm vào giỏ hàng với số lượng là 1
-            $cart[$id] = [
-                "name" => $product->name,
-                "number_of_item" => 1,
-                "sell_price" => $product->sell_price,
-                "thumbnail_url" => $product->thumbnail_url
-            ];
-
-            // Cập nhật giỏ hàng trong session
-            Session::put('cart', $cart);
-
-            // Thêm mới bản ghi vào cơ sở dữ liệu
+            // Nếu chưa, thêm mới sản phẩm vào giỏ hàng với số lượng là 1 trong cơ sở dữ liệu
             DB::table('cart')->insert([
                 'product_id' => $id,
                 'number_of_item' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
+
+            // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
+            $created_at = now();
+            $updated_at = now();
         }
-        
         // Trả về response thành công
         return response()->json(['product_id' => $id,
                                 'name' => $product->name,
-                                'number_of_item' => 1,
+                                'number_of_item' => $existingCartItem ? $existingCartItem->number_of_item + 1 : 1,
                                 'sell_price' => $product->sell_price,
-                                'thumbnail_url' => $product->thumbnail_url]);}
+                                'thumbnail_url' => $product->thumbnail_url,
+                                'created_at' => $created_at,
+                                'updated_at' => $updated_at,
+                                'success'=> true]);}
 
 
     public function removeFromCart(Request $request)
