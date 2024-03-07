@@ -8,6 +8,23 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
+    // Hiển thị trang giỏ hàng với sản phẩm đã thêm
+    public function cart(Request $request)
+    {
+        // Lấy danh sách sản phẩm trong giỏ hàng từ cơ sở dữ liệu
+        $cart = DB::table('cart')->get();
+        // Truy vấn danh mục sản phẩm từ cơ sở dữ liệu
+        $categories = DB::table('category')->get();
+
+        // Chuẩn bị biến để truyền sang view
+        $templateVariables = [
+            'cart' => $cart,
+            'category' => $categories
+        ];
+
+        return view('client.pages.shop-cart', $templateVariables);
+    }
+
     public function addToCart(Request $request)
     {
         // Lấy ID sản phẩm từ request
@@ -57,33 +74,26 @@ class CartController extends Controller
                                 'thumbnail_url' => $product->thumbnail_url,
                                 'created_at' => $created_at,
                                 'updated_at' => $updated_at,
-                                'success'=> true]);}
+                                'success'=> true]);
+    }
 
 
     public function removeFromCart(Request $request)
     {
-        $cart = Session::get('cart', []);
-        if(isset($cart[$request->id])) {
-            unset($cart[$request->id]);
-            Session::put('cart', $cart);
-        }
+        $id = $request->id;
+        // Xóa sản phẩm khỏi giỏ hàng trong cơ sở dữ liệu
+        DB::table('cart')->where('product_id', $id)->delete();
+
         return back()->with('success', 'Product removed from cart successfully!');
     }
-
     public function updateCart(Request $request)
     {
-        $cart = Session::get('cart', []);
-        if(isset($cart[$request->id])) {
-            $cart[$request->id]['number_of_item'] = $request->number_of_item;
-            Session::put('cart', $cart);
-        }
+        $id = $request->id;
+        $number_of_item = $request->number_of_item;
+        // Cập nhật số lượng sản phẩm trong giỏ hàng trong cơ sở dữ liệu
+        DB::table('cart')->where('product_id', $id)->update(['number_of_item' => $number_of_item]);
+
         return back()->with('success', 'Cart updated successfully!');
     }
-
-    // Hiển thị trang giỏ hàng với sản phẩm đã thêm
-    public function showCart()
-    {
-        $cart = Session::get('cart', []);
-        return view('client.pages.cart', ['cart' => $cart]);
-    }
+    
 }
