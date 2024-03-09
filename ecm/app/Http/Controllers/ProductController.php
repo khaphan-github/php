@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
-
+use App\Services\CartService;
 use function Laravel\Prompts\table;
 
 class ProductController extends Controller
@@ -17,10 +17,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function home(Request $request)
-    {
-        // Lấy danh sách danh mục từ database
-        $categories = DB::table('category')->get(); 
-        
+    {   
+
+        $cartService = new CartService();
+        $totalHeader = $cartService->calculateTotal();
+
         // Khởi tạo query để lấy sản phẩm
         $query = DB::table('product')->select('*'); 
         
@@ -40,7 +41,7 @@ class ProductController extends Controller
         // Chuẩn bị biến để truyền sang view
         $templateVariables = [
             'product' => $products,
-            'category' => $categories
+            'totalHeader' => $totalHeader
         ];
         
         // Trả về view kèm theo dữ liệu sản phẩm và danh mục

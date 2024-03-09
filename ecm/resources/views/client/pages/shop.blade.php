@@ -7,7 +7,7 @@
                     <div class="breadcrumb__text">
                         <h2>Organi Shop</h2>
                         <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
+                            <a href="{{ route('home') }}">Home</a>
                             <span>Shop</span>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                             </div>
                             <div class="product__item__text">
                                 <h6><a href="#">${product.name}</a></h6>
-                                <h5>${product.sell_price} VND</h5>
+                                <h5>${product.sell_price} VNĐ</h5>
                             </div>
             `;
                 container.innerHTML += productHTML;

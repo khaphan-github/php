@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use App\Services\CartService;
+
 
 class ShopController extends Controller
 {
@@ -16,6 +18,9 @@ class ShopController extends Controller
      */
     public function shop(Request $request)
     {
+        $cartService = new CartService();
+        $totalHeader = $cartService->calculateTotal();
+
         // Lấy danh sách danh mục từ database
         $categories = DB::table('category')->get();
 
@@ -33,7 +38,6 @@ class ShopController extends Controller
         $templateVariables = [
             'product' => $products,
             'category_categories' => $categories,
-            'category' => $categories,
             'categoryId' => null,
             'orderBy' => $orderBy,
             'page' => 1,
@@ -41,6 +45,7 @@ class ShopController extends Controller
             'total' => $totalProducts,
             'searchString' => null,
             'products' => $products,
+             'totalHeader' => $totalHeader
         ];
 
         // Trả về view kèm theo dữ liệu sản phẩm và danh mục
