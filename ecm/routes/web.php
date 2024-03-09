@@ -102,7 +102,6 @@ Route::get('/login', function () {
 Route::get('/test', [TestController::class, 'get']);
 Route::post('/admin/category/create', [TestController::class, 'store'])->name('admin.category.store');
 
-
 //Route Home
 Route::view('/home', 'client/pages/home');
 
@@ -112,16 +111,18 @@ Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/', [ProductController::class, 'home'])->name('home');
 
 //Route Cart
+Route::view('/shop-cart', 'client/pages/shop-cart');
 Route::get('/shop-cart', [CartController::class, 'cart'])->name('cart');
 Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
-Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('remove-from-cart');
+Route::post('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
+Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
 
 
 Route::view('/blog', 'client/pages/blog');
 Route::view('/contact', 'client/pages/contact');
 Route::view('/blog-details', 'client/pages/blog-details');
 Route::view('/checkout', 'client/pages/checkout');
-Route::view('/shop-cart', 'client/pages/shop-cart');
+
 Route::view('/shop-details', 'client/pages/shop-details');
 Route::view('/NotFoundItem', 'client/pages/NotFoundItem');
 

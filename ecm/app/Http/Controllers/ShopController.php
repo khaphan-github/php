@@ -33,7 +33,6 @@ class ShopController extends Controller
         $templateVariables = [
             'product' => $products,
             'category_categories' => $categories,
-            'category' => $categories,
             'categoryId' => null,
             'orderBy' => $orderBy,
             'page' => 1,
