@@ -5,18 +5,40 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use App\Services\CartService;
+
 
 class CartController extends Controller
 {
     // Hiển thị trang giỏ hàng với sản phẩm đã thêm
     public function cart(Request $request)
     {
+        $cartService = new CartService();
+        $totalHeader = $cartService->calculateTotal();
+
         // Lấy danh sách sản phẩm trong giỏ hàng từ cơ sở dữ liệu
         $cart = DB::table('cart')->get();
 
+        // Khởi tạo biến tổng cộng và tổng tiền
+        $subtotal = 0;
+        $total = 0;
+
+        // Duyệt qua từng sản phẩm trong giỏ hàng để tính toán tổng cộng và tổng số tiền
+        foreach ($cart as $item) {
+            $product = DB::table('product')->where('id', $item->product_id)->first();
+            // Tính tổng cộng cho mỗi sản phẩm
+            $subtotal += $product->sell_price * $item->number_of_item;
+        }
+
+        // Tổng cộng chính là tổng tiền
+        $total = $subtotal;
+
         // Chuẩn bị biến để truyền sang view
         $templateVariables = [
-            'cart' => $cart,
+            'subtotal' => $subtotal, 
+            'total' => $total,
+            'totalHeader' => $totalHeader,
+            'cart' => $cart
         ];
 
         return view('client.pages.shop-cart', $templateVariables);
@@ -87,30 +109,15 @@ class CartController extends Controller
     {
         $id = $request->id;
         $number_of_item = $request->number_of_item;
+
         // Cập nhật số lượng sản phẩm trong giỏ hàng trong cơ sở dữ liệu
         DB::table('cart')->where('product_id', $id)->update(['number_of_item' => $number_of_item]);
 
-        // Khởi tạo biến tổng cộng và tổng số tiền
-        $subtotal = 0;
-        $total = 0;
-
-        // Duyệt qua từng sản phẩm trong giỏ hàng để tính toán tổng cộng và tổng số tiền
-        foreach ($cart as $item) {
-            $product = DB::table('product')->where('id', $item->product_id)->first();
-            // Tính tổng cộng cho mỗi sản phẩm
-            $subtotal += $product->sell_price * $item->number_of_item;
-        }
-
-        // Tổng cộng chính là tổng tiền
-        $total = $subtotal;
-
-        return response()->json([
-        'name' => $product->name,
-        'number_of_item' => $number_of_item,
-        'sell_price' => $product->sell_price,
-        'thumbnail_url' => $product->thumbnail_url,
-        'success' => true,
-        'message' => 'Product updated from cart successfully!']);
+        return response()->json(['name' => $product->name,
+                                'number_of_item' => $number_of_item,
+                                'sell_price' => $product->sell_price,
+                                'thumbnail_url' => $product->thumbnail_url,
+                                'message' => 'Product updated from cart successfully!']);
     }
     
 }
