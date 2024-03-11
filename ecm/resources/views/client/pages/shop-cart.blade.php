@@ -93,7 +93,6 @@
                     <div class="shoping__checkout">
                         <h5>Thanh toán </h5>
                         <ul>
-                            <li>Tổng cộng <span>{{$subtotal}} VNĐ</span></li>
                             <li>Tổng số tiền <span>{{$total}} VNĐ</span></li>
                         </ul>
                         <a href="{{ route('checkout') }}" class="primary-btn">TIẾN HÀNH THANH TOÁN</a>

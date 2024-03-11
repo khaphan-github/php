@@ -20,22 +20,17 @@ class CartController extends Controller
         $cart = DB::table('cart')->get();
 
         // Khởi tạo biến tổng cộng và tổng tiền
-        $subtotal = 0;
         $total = 0;
 
         // Duyệt qua từng sản phẩm trong giỏ hàng để tính toán tổng cộng và tổng số tiền
         foreach ($cart as $item) {
             $product = DB::table('product')->where('id', $item->product_id)->first();
             // Tính tổng cộng cho mỗi sản phẩm
-            $subtotal += $product->sell_price * $item->number_of_item;
+            $total += $product->sell_price * $item->number_of_item;
         }
-
-        // Tổng cộng chính là tổng tiền
-        $total = $subtotal;
 
         // Chuẩn bị biến để truyền sang view
         $templateVariables = [
-            'subtotal' => $subtotal, 
             'total' => $total,
             'totalHeader' => $totalHeader,
             'cart' => $cart
