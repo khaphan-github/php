@@ -45,7 +45,7 @@ class ShopController extends Controller
             'total' => $totalProducts,
             'searchString' => null,
             'products' => $products,
-             'totalHeader' => $totalHeader
+            'totalHeader' => $totalHeader
         ];
 
         // Trả về view kèm theo dữ liệu sản phẩm và danh mục

@@ -66,18 +66,9 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="{{ Request::is('home') ? 'active' : '' }}"><a href="{{ url('/home') }}">Home</a></li>
-                            <li class="{{ Request::is('shop') ? 'active' : '' }}"><a href="{{ url('/shop') }}">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="header__menu__dropdown">
-                                    <li><a href="{{ url('/shop-details') }}">Shop Details</a></li>
-                                    <li><a href="{{ url('/shop-cart') }}">Shopping Cart</a></li>
-                                    <li><a href="{{ url('/checkout') }}">Check Out</a></li>
-                                    <li><a href="{{ url('/blog-details') }}">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="{{ Request::is('blog') ? 'active' : '' }}"><a href="{{ url('/blog') }}">Blog</a></li>
-                            <li class="{{ Request::is('contact') ? 'active' : '' }}"><a href="{{ url('/contact') }}">Contact</a></li>
+                            <li class="{{ Request::is('home') ? 'active' : '' }}"><a href="{{ url('/home') }}">Trang chủ</a></li>
+                            <li class="{{ Request::is('shop') ? 'active' : '' }}"><a href="{{ url('/shop') }}">Cửa hàng</a></li>
+                            <li class="{{ Request::is('contact') ? 'active' : '' }}"><a href="{{ url('/contact') }}">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>

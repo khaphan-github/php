@@ -11,6 +11,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -104,11 +105,13 @@ Route::post('/admin/category/create', [TestController::class, 'store'])->name('a
 
 //Route Home
 Route::view('/home', 'client/pages/home');
+Route::get('/home', [ProductController::class, 'home'])->name('home');
+Route::get('/', [ProductController::class, 'home'])->name('home');
 
 //Route Shop
 Route::view('/shop', 'client/pages/shop');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
-Route::get('/', [ProductController::class, 'home'])->name('home');
+
 
 //Route Cart
 Route::view('/shop-cart', 'client/pages/shop-cart');
@@ -117,11 +120,15 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-
 Route::post('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
 
+//Route Checkout
+Route::view('/checkout', 'client/pages/checkout');
+Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+
 
 Route::view('/blog', 'client/pages/blog');
 Route::view('/contact', 'client/pages/contact');
 Route::view('/blog-details', 'client/pages/blog-details');
-Route::view('/checkout', 'client/pages/checkout');
+
 
 Route::view('/shop-details', 'client/pages/shop-details');
 Route::view('/NotFoundItem', 'client/pages/NotFoundItem');

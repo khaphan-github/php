@@ -7,8 +7,8 @@
                     <div class="breadcrumb__text">
                         <h2>Organi Shop</h2>
                         <div class="breadcrumb__option">
-                            <a href="{{ route('home') }}">Home</a>
-                            <span>Shop</span>
+                            <a href="{{ route('home') }}">Trang chủ</a>
+                            <span>Cửa hàng</span>
                         </div>
                     </div>
                 </div>
