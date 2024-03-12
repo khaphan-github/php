@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Services\CartService;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 
 class CartController extends Controller
@@ -79,6 +81,7 @@ class CartController extends Controller
             // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
             $created_at = now();
             $updated_at = now();
+           
         }
         // Trả về response thành công
         return response()->json(['product_id' => $id,
