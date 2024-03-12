@@ -65,7 +65,7 @@
                                         {{ $product->sell_price * $item->number_of_item }} VNĐ
                                     </td>
                                     <td class="shoping__cart__item__close">
-                                       <a href="{{ route('removeFromCart', ['id' => $item->product_id]) }}" class="icon_close"></a>
+                                        <a href="#" onclick="return confirmAction('{{ route('removeFromCart', ['id' => $item->product_id]) }}');" class="icon_close"></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -93,6 +93,7 @@
                     <div class="shoping__checkout">
                         <h5>Thanh toán </h5>
                         <ul>
+                            <li>Phí Ship <span>Free Ship</span></li>
                             <li>Tổng số tiền <span>{{$total}} VNĐ</span></li>
                         </ul>
                         <a href="{{ route('checkout') }}" class="primary-btn">TIẾN HÀNH THANH TOÁN</a>
@@ -101,8 +102,19 @@
             </div>
         </div>
     </section>
+
     <!-- Shoping Cart Section End -->
     <script>
+        function confirmAction(route) {
+            if (confirm("Bạn có chắc muốn xoá sản phẩm này trong giỏ hàng?") == true) {
+                text = "Xoá";
+                window.location.href = route;
+            } else {
+                text = "Huỷ!";
+                return false; // Prevent the default action
+            }
+        }
+
         function updateQuantity(inputField) {
             var formData = new FormData();
             formData.append('id', inputField.closest('form').querySelector('input[name="id"]').value);

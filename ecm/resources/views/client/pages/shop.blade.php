@@ -1,5 +1,6 @@
 @extends('client.layout.pages-layout')
 @section('content')
+
     <section class="breadcrumb-section set-bg" data-setbg="/client/img/breadcrumb.jpg">
         <div class="container">
             <div class="row">
@@ -160,6 +161,7 @@
     </section>
     <!-- Product Section End -->
 
+    <!-- Modal HTML -->
     <script>
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -273,15 +275,18 @@
                 // Kiểm tra nếu sản phẩm được thêm thành công
                 if (data.success) {
                     console.log("Sản phẩm đã được thêm vào giỏ hàng thành công!");
+                    alert("Đã Thêm Thành Công!")
                 } else {
                     console.log("Có lỗi xảy ra, không thể thêm sản phẩm vào giỏ hàng.");
+                    alert("Đã thêm thất bại!")
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
+                alert("Đã xảy ra lỗi!")
             });
         }
-
-
     </script>
 @endsection
+
+

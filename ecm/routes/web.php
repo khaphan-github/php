@@ -123,7 +123,9 @@ Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])-
 //Route Checkout
 Route::view('/checkout', 'client/pages/checkout');
 Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
-
+Route::post('/paypal', [OrderController::class, 'paypal'])->name('paypal');
+Route::get('/success', [OrderController::class, 'success'])->name('success');
+Route::get('/cancel', [OrderController::class, 'cancel'])->name('cancel');
 
 Route::view('/blog', 'client/pages/blog');
 Route::view('/contact', 'client/pages/contact');
