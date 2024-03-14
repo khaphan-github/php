@@ -111,7 +111,10 @@ Route::get('/', [ProductController::class, 'home'])->name('home');
 //Route Shop
 Route::view('/shop', 'client/pages/shop');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
-
+Route::view('/shop-details', 'client/pages/shop-details');
+Route::get('/product/{id}', [ProductController::class, 'productDetails'])->name('shop-details');
+Route::post('/add-to-cart', [ProductController::class, 'addToCart'])->name('add-to-cart');
+Route::post('/update-cart', [ProductController::class, 'updateCart'])->name('updateCart');
 
 //Route Cart
 Route::view('/shop-cart', 'client/pages/shop-cart');
@@ -132,6 +135,5 @@ Route::view('/contact', 'client/pages/contact');
 Route::view('/blog-details', 'client/pages/blog-details');
 
 
-Route::view('/shop-details', 'client/pages/shop-details');
 Route::view('/NotFoundItem', 'client/pages/NotFoundItem');
 
