@@ -43,7 +43,7 @@
                                 </ul>
                                 <div class="checkout__order__subtotal">Phí Ship <span>Free Ship</span></div>
                                 <div class="checkout__order__total">Tổng cộng <span>{{ $total }} VNĐ</span></div>
-                                <input type="hidden" name="total" value="5">
+                                <input type="hidden" name="total" value="{{ $total }} ">
                                 <button type="submit" class="site-btn">THANH TOÁN PAYPAL</button>
                             </form>
                     </div>
