@@ -174,6 +174,10 @@
             });
         });
 
+        function showProductDetails(productId) {
+            window.location.href = "/product/" + productId; // Redirect to product details page
+        }
+
         // Gửi yêu cầu lọc sản phẩm
         function updateProductsView(products) {
             const container = document.querySelector('.product__item___display');
@@ -188,7 +192,7 @@
                                 </ul>
                             </div>
                             <div class="product__item__text">
-                                <h6><a href="#">${product.name}</a></h6>
+                                <h6><a href="#" onclick="showProductDetails(${product.id})">${product.name}</a></h6>
                                 <h5>${product.sell_price} VNĐ</h5>
                             </div>
             `;
