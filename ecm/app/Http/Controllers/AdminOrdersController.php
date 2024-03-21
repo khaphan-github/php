@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\View;
 
 // Chuas casc logic crud category
-class AdminCategoryController extends Controller
+class AdminOrdersController extends Controller
 {
-
 
     public function filterPage(Request $request)
     {
@@ -22,10 +16,20 @@ class AdminCategoryController extends Controller
 
         $search = $request->query('s');
 
-        $query = DB::table('category');
+        $query = DB::table('order');
 
         if (!empty($search)) {
-            $query->where('name', 'like', '%' . $search . '%');
+
+            $query
+                ->orWhere('status', 'like', '%' . $search . '%')
+
+                ->orWhere('payment_method', 'like', '%' . $search . '%')
+
+                ->orWhere('user_id', 'like', '%' . $search . '%')
+
+                ->orWhere('created_at', 'like', '%' . $search . '%')
+
+                ->orWhere('updated_at', 'like', '%' . $search . '%');
         }
 
         $listItem = $query->paginate($size, ['*'], 'page', $page);
@@ -40,30 +44,33 @@ class AdminCategoryController extends Controller
             'totalPages' => $totalPages
         ];
 
-        return view('admin/category/table', $templateVariables);
+        return view('admin/order/table', $templateVariables);
     }
 
     public function createFunction(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'icon' => 'nullable|string|max:255',
-            'parent_category_id' => 'nullable|exists:category,id',
+            'status' => 'nullable|string|max:255',
+            'payment_method' => 'nullable|string|max:255',
+            'user_id' => 'nullable|string|max:255',
+            'created_at' => 'nullable|string|max:255',
+            'updated_at' => 'nullable|string|max:255',
         ]);
 
         // Check if ID is present
         if ($request->has('id')) {
             // Update existing record
-            $category = DB::table('category')->where('id', $request->id)->first();
+            $category = DB::table('order')->where('id', $request->id)->first();
             if ($category) {
                 $data = [
-                    'name' => $request->name,
-                    'icon' => $request->icon,
-                    'parent_category_id' => $request->parent_category_id,
+                    'status' => $request->status,
+                    'payment_method' => $request->payment_method,
+                    'user_id' => $request->user_id,
+                    'created_at' => now(),
                     'updated_at' => now(),
                 ];
 
-                DB::table('category')->where('id', $request->id)->update($data);
+                DB::table('order')->where('id', $request->id)->update($data);
             } else {
                 // Handle error: Category not found with the given ID
                 return back()->withErrors(['id' => 'Category not found with the given ID']);
@@ -71,22 +78,23 @@ class AdminCategoryController extends Controller
         } else {
             // Create new record
             $data = [
-                'name' => $request->name,
-                'icon' => $request->icon,
-                'parent_category_id' => $request->parent_category_id,
+                'status' => $request->status,
+                'payment_method' => $request->payment_method,
+                'user_id' => $request->user_id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
 
-            DB::table('category')->insert($data);
+            $success = DB::table('order')->insert($data);
         }
 
         return back();
     }
 
+
     public function deleteFunction($id)
     {
-        $deletedRows = DB::table('category')->delete((int)$id);
+        $deletedRows = DB::table('order')->delete((int)$id);
         return back();
     }
 }

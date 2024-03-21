@@ -1,11 +1,31 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
+<div class="modal fade" id="fullScreenModal" tabindex="-1" aria-labelledby="fullScreenModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="font-weight-bolder mb-0">
+                    Quản lý chi tiết</h5>
+                <p class="mb-0 text-sm"></p>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0 text"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Full screen modal --}}
+
 <!-- Modal Create-->
 <div class="modal fade" id="createDataModal" tabindex="-1" aria-labelledby="createDataModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('categories.createFunction') }}" method="POST">
+            <form action="{{  url('/admin/orders/store')}}" method="POST">
                 {!! csrf_field() !!}
 
                 <div class="modal-header">
@@ -14,25 +34,30 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Tên danh mục</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <label for="status" class="form-label">Trạng thái</label>
+                        <input type="text" class="form-control" id="status" name="status">
                     </div>
 
                     <div class="mb-3">
-                        <label for="icon" class="form-label">Icon</label>
-                        <select class="form-select" id="parent_category_id" name="icon">
-                            <option>__</option>
-                        </select>
+                        <label for="payment_method" class="form-label">Phương thức thanh toán</label>
+                        <input type="text" class="form-control" id="payment_method" name="payment_method">
                     </div>
+
                     <div class="mb-3">
-                        <label for="parent_category_id" class="form-label">Danh mục cha</label>
-                        <select class="form-select" id="parent_category_id" name="parent_category_id">
-                            <option value="">--Trống--</option>
-                            @foreach ($listItem as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
+                        <label for="user_id" class="form-label">Mã khách hàng</label>
+                        <input type="text" class="form-control" id="user_id" name="user_id">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="created_at" class="form-label">Ngày tạo</label>
+                        <input type="text" class="form-control" id="created_at" name="created_at">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="updated_at" class="form-label">Ngày cập nhật</label>
+                        <input type="text" class="form-control" id="updated_at" name="updated_at">
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -48,7 +73,7 @@
 <div class="modal fade" id="updateDataModal" tabindex="-1" aria-labelledby="updateDataModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="updateForm" action="{{ route('categories.createFunction') }}" method="POST">
+            <form id="updateForm" action="{{ url('admin/orders/store') }}" method="POST">
                 {!! csrf_field() !!}
                 <div class="modal-header">
                     <h5 class="font-weight-bolder mb-0">Chỉnh sửa thông tin</h5>
@@ -58,25 +83,30 @@
                     <input type="hidden" id="update_form_id" name="id">
 
                     <div class="mb-3">
-                        <label for="name" class="form-label">Tên danh mục</label>
-                        <input type="text" class="form-control" id="update_form_name" name="name">
+                        <label for="status" class="form-label">Trạng thái</label>
+                        <input type="text" class="form-control" id="update_form_status" name="status">
                     </div>
 
                     <div class="mb-3">
-                        <label for="icon" class="form-label">Icon</label>
-                        <select class="form-select" id="update_form_icon" name="icon">
-                            <option>__</option>
-                        </select>
+                        <label for="payment_method" class="form-label">Phương thức thanh toán</label>
+                        <input type="text" class="form-control" id="update_form_payment_method" name="payment_method">
                     </div>
+
                     <div class="mb-3">
-                        <label for="parent_category_id" class="form-label">Danh mục cha</label>
-                        <select class="form-select" id="update_form_parent_category_id" name="parent_category_id">
-                            <option value="">--Trống--</option>
-                            @foreach ($listItem as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
+                        <label for="user_id" class="form-label">Mã khách hàng</label>
+                        <input type="text" class="form-control" id="update_form_user_id" name="user_id">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="created_at" class="form-label">Ngày tạo</label>
+                        <input type="text" class="form-control" id="update_form_created_at" name="created_at">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="updated_at" class="form-label">Ngày cập nhật</label>
+                        <input type="text" class="form-control" id="update_form_updated_at" name="updated_at">
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
@@ -136,13 +166,13 @@
                                 <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Tìm kiếm" onkeypress="search(event)" value="{{ $searchQuery }}">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <div class="d-flex justify-content-start">
                                 <button type="button" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#createDataModal">
                                     +&nbsp; Thêm mới
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-6">
                             <div class=" d-flex align-item-center justify-content-end">
                                 <div class="pagination">
@@ -155,8 +185,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
@@ -165,18 +193,28 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Thứ tự
                                     </th>
+
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Mã
+                                        Trạng thái
                                     </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Hình ảnh
-                                    </th>
+
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Tên
+                                        Phương thức thanh toán
                                     </th>
+
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Lần cập nhật mới nhất
+                                        Mã khách hàng
                                     </th>
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Ngày tạo
+                                    </th>
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Ngày cập nhật
+                                    </th>
+
+
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Hành động
                                     </th>
@@ -195,26 +233,42 @@
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">STT.{{ $index + 1 }}</p>
                                     </td>
+
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">CT.{{ $item->id }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->status }}</p>
                                     </td>
+
                                     <td class="text-center">
-                                        <img src="{{ $item->icon }}" class="avatar avatar-sm me-3">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->payment_method }}</p>
                                     </td>
+
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ $item->name }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->user_id }}</p>
                                     </td>
+
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->created_at }}</p>
+                                    </td>
+
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->updated_at }}</p>
                                     </td>
+
+
                                     <td class="text-center">
-                                        <span class="mx-3" onclick="handleUpdateData({{ json_encode($item) }})" data-bs-toggle="modal" data-bs-target="#updateDataModal" data-bs-original-title="Chỉnh sửa thông tin">
-                                            <i class="fas fa-user-edit text-secondary">
+                                        <span class="mx-1" onclick="handleUpdateData({{ json_encode($item) }})" data-bs-toggle="modal" data-bs-target="#updateDataModal" data-bs-original-title="Chỉnh sửa thông tin">
+                                            <i class="fas fa-edit text-secondary">
                                             </i>
                                         </span>
                                         <span>
-                                            <span onclick="handleDeleteData({{ json_encode($item) }})" class="mx-3" data-bs-toggle="modal" data-bs-target="#deleteDataModal" data-bs-original-title="Xóa thông tin">
+                                            <span onclick="handleDeleteData({{ json_encode($item) }})" class="mx-1" data-bs-toggle="modal" data-bs-target="#deleteDataModal" data-bs-original-title="Xóa thông tin">
                                                 <i class="cursor-pointer fas fa-trash text-secondary"></i>
+                                            </span>
+                                        </span>
+                                        <span>
+                                            <span class="mx-1" data-bs-toggle="modal" data-bs-target="#fullScreenModal" data-bs-original-title="Fullscreen">
+                                                <i class="cursor-pointer fa fa-window-maximize" aria-hidden="true"></i>
+
                                             </span>
                                         </span>
                                     </td>
@@ -237,9 +291,17 @@
     function handleUpdateData(item) {
         setTimeout(() => {
             document.getElementById('update_form_id').value = item.id;
-            document.getElementById('update_form_name').value = item.name;
-            document.getElementById('update_form_icon').value = item.icon;
-            document.getElementById('update_form_parent_category_id').value = item.parent_category_id;
+
+            document.getElementById('update_form_status').value = item.status;
+
+            document.getElementById('update_form_payment_method').value = item.payment_method;
+
+            document.getElementById('update_form_user_id').value = item.user_id;
+
+            document.getElementById('update_form_created_at').value = item.created_at;
+
+            document.getElementById('update_form_updated_at').value = item.updated_at;
+
         }, 200);
     }
 
@@ -250,32 +312,32 @@
     }
 
     function confirmDelete() {
-        window.location.href = "/admin/category/delete/" + document.getElementById('delete_form_id').value;
+        window.location.href = "/admin/orders/delete/" + document.getElementById('delete_form_id').value;
     }
 
     function goToPreviousPage(currentPage) {
         if (currentPage > 1) {
-            window.location.href = "{{ route('categories.filter') }}?page=" + (currentPage - 1) +
+            window.location.href = "{{ route('orders.filter') }}?page=" + (currentPage - 1) +
                 "&size={{ $perPage }}&s={{ $searchQuery }}";
         }
     }
 
     function goToNextPage(currentPage, totalPages) {
         if (currentPage < totalPages) {
-            window.location.href = "{{ route('categories.filter') }}?page=" + (currentPage + 1) +
+            window.location.href = "{{ route('orders.filter') }}?page=" + (currentPage + 1) +
                 "&size={{ $perPage }}&s={{ $searchQuery }}";
         }
     }
 
     function search(query) {
         if (query.target.value) {
-            let url = "{{ route('categories.filter') }}";
+            let url = "{{ route('orders.filter') }}";
             let queryParams = new URLSearchParams(window.location.search);
             queryParams.set('s', query.target.value);
             queryParams.delete('page');
             window.location.href = url + '?' + queryParams.toString();
         } else {
-            window.location.href = "{{ route('categories.filter') }}";
+            window.location.href = "{{ route('orders.filter') }}";
         }
     }
 </script>
