@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\AdminOrdersController;
 use App\Http\Controllers\AdminProductReviewsController;
 use App\Http\Controllers\AdminProductsController;
+use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
@@ -95,6 +96,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/admin/product_reviews/store', [AdminProductReviewsController::class, 'createFunction'])->name('product_reviews.create');
 	Route::get('/admin/product_reviews/delete/{id}', [AdminProductReviewsController::class, 'deleteFunction']);
 
+
+	// Account
+	Route::get('/admin/users', [AdminUsersController::class, 'filterPage'])->name('users.filter');
+	Route::post('/admin/users/store', [AdminUsersController::class, 'createFunction'])->name('users.create');
+	Route::get('/admin/users/delete/{id}', [AdminUsersController::class, 'deleteFunction']);
 });
 
 
