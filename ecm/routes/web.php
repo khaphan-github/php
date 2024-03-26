@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AdminOrdersController;
+use App\Http\Controllers\AdminProductReviewsController;
+use App\Http\Controllers\AdminProductsController;
+use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
@@ -75,8 +79,32 @@ Route::group(['middleware' => 'auth'], function () {
 	// Category
 	Route::get('/admin/category', [AdminCategoryController::class, 'filterPage'])->name('categories.filter');
 	Route::post('/admin/category', [AdminCategoryController::class, 'createFunction'])->name('categories.createFunction');
-	Route::put('/admin/category', [AdminCategoryController::class, 'updateFunction'])->name('categories.updateFunction');
 	Route::get('/admin/category/delete/{id}', [AdminCategoryController::class, 'deleteFunction']);
+
+	// Product
+	Route::get('/admin/products', [AdminProductsController::class, 'filterPage'])->name('products.filter');
+	Route::post('/admin/products/store', [AdminProductsController::class, 'createFunction'])->name('products.create');
+	Route::get('/admin/products/delete/{id}', [AdminProductsController::class, 'deleteFunction']);
+	Route::post('/admin/products/upload-excel',  [AdminProductsController::class, 'upload']);
+
+	// Orders
+	Route::get('/admin/orders', [AdminOrdersController::class, 'filterPage'])->name('orders.filter');
+	Route::post('/admin/orders/store', [AdminOrdersController::class, 'createFunction'])->name('orders.create');
+	Route::get('/admin/orders/delete/{id}', [AdminOrdersController::class, 'deleteFunction']);
+
+	// Product preview
+	Route::get('/admin/product_reviews', [AdminProductReviewsController::class, 'filterPage'])->name('product_reviews.filter');
+	Route::post('/admin/product_reviews/store', [AdminProductReviewsController::class, 'createFunction'])->name('product_reviews.create');
+	Route::get('/admin/product_reviews/delete/{id}', [AdminProductReviewsController::class, 'deleteFunction']);
+
+
+	// Account
+	Route::get('/admin/users', [AdminUsersController::class, 'filterPage'])->name('users.filter');
+	Route::post('/admin/users/store', [AdminUsersController::class, 'createFunction'])->name('users.create');
+	Route::get('/admin/users/delete/{id}', [AdminUsersController::class, 'deleteFunction']);
+
+	// routes/web.php
+
 });
 
 
@@ -136,4 +164,3 @@ Route::view('/blog-details', 'client/pages/blog-details');
 
 
 Route::view('/NotFoundItem', 'client/pages/NotFoundItem');
-

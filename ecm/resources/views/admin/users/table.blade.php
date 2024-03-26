@@ -1,11 +1,31 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
+<div class="modal fade" id="fullScreenModal" tabindex="-1" aria-labelledby="fullScreenModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="font-weight-bolder mb-0">
+                    Quản lý chi tiết</h5>
+                <p class="mb-0 text-sm"></p>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0 text"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Full screen modal --}}
+
 <!-- Modal Create-->
 <div class="modal fade" id="createDataModal" tabindex="-1" aria-labelledby="createDataModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="{{ route('categories.createFunction') }}" method="POST">
+            <form action="{{  url('/admin/users/store')}}" method="POST">
                 {!! csrf_field() !!}
 
                 <div class="modal-header">
@@ -13,24 +33,37 @@
                     <p class="mb-0 text-sm"></p>
                 </div>
                 <div class="modal-body">
+
                     <div class="mb-3">
-                        <label for="name" class="form-label">Tên danh mục</label>
+                        <label for="name" class="form-label">Tên</label>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
 
                     <div class="mb-3">
-                        <label for="icon" class="form-label">Icon</label>
-                        <select class="form-select" id="parent_category_id" name="icon">
-                            <option>__</option>
-                        </select>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email">
                     </div>
+
                     <div class="mb-3">
-                        <label for="parent_category_id" class="form-label">Danh mục cha</label>
-                        <select class="form-select" id="parent_category_id" name="parent_category_id">
-                            <option value="">--Trống--</option>
-                            @foreach ($listItem as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="text" class="form-control" id="password" name="password">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone" name="phone">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="location" name="location">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="about_me" class="form-label"> Loại tài khoản</label>
+                        <select class="form-select" id="update_form_about_me" name="about_me">
+                            <option value="ADMIN">ADMIN (Tài khoản quản trị)</option>
+                            <option value="USER">USER (Tài khoản Khách Hàng)</option>
                         </select>
                     </div>
                 </div>
@@ -48,7 +81,7 @@
 <div class="modal fade" id="updateDataModal" tabindex="-1" aria-labelledby="updateDataModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="updateForm" action="{{ route('categories.createFunction') }}" method="POST">
+            <form id="updateForm" action="{{ url('admin/users/store') }}" method="POST">
                 {!! csrf_field() !!}
                 <div class="modal-header">
                     <h5 class="font-weight-bolder mb-0">Chỉnh sửa thông tin</h5>
@@ -58,23 +91,35 @@
                     <input type="hidden" id="update_form_id" name="id">
 
                     <div class="mb-3">
-                        <label for="name" class="form-label">Tên danh mục</label>
+                        <label for="name" class="form-label">Tên</label>
                         <input type="text" class="form-control" id="update_form_name" name="name">
                     </div>
 
                     <div class="mb-3">
-                        <label for="icon" class="form-label">Icon</label>
-                        <select class="form-select" id="update_form_icon" name="icon">
-                            <option>__</option>
-                        </select>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="update_form_email" name="email">
                     </div>
+
                     <div class="mb-3">
-                        <label for="parent_category_id" class="form-label">Danh mục cha</label>
-                        <select class="form-select" id="update_form_parent_category_id" name="parent_category_id">
-                            <option value="">--Trống--</option>
-                            @foreach ($listItem as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
+                        <label for="password" class="form-label">Mật khẩu</label>
+                        <input type="text" class="form-control" id="update_form_password" name="password">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="update_form_phone" name="phone">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Địa chỉ</label>
+                        <input type="text" class="form-control" id="update_form_location" name="location">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="about_me" class="form-label"> Loại tài khoản</label>
+                        <select class="form-select" id="update_form_about_me" name="about_me">
+                            <option value="ADMIN">ADMIN (Tài khoản quản trị)</option>
+                            <option value="USER">USER (Tài khoản Khách Hàng)</option>
                         </select>
                     </div>
                 </div>
@@ -155,8 +200,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
@@ -165,18 +208,44 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Thứ tự
                                     </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Mã
-                                    </th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Hình ảnh
-                                    </th>
+
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Tên
                                     </th>
+
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Lần cập nhật mới nhất
+                                        Email
                                     </th>
+                                    <!-- 
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Mật khẩu
+                                    </th> -->
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Số điện thoại
+                                    </th>
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Địa chỉ
+                                    </th>
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Loại tài khoản
+                                    </th>
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Token
+                                    </th>
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Ngày cập nhật
+                                    </th>
+
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Ngày Tạo
+                                    </th>
+
+
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Hành động
                                     </th>
@@ -195,26 +264,58 @@
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">STT.{{ $index + 1 }}</p>
                                     </td>
-                                    <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">CT.{{ $item->id }}</p>
-                                    </td>
-                                    <td class="text-center">
-                                        <img src="{{ $item->icon }}" class="avatar avatar-sm me-3">
-                                    </td>
+
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->name }}</p>
                                     </td>
+
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->email }}</p>
+                                    </td>
+
+                                    <!-- <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->password }}</p>
+                                    </td> -->
+
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->phone }}</p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->location }}</p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->about_me }}</p>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->remember_token }}</p>
+                                    </td>
+
                                     <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->updated_at }}</p>
                                     </td>
+
                                     <td class="text-center">
-                                        <span class="mx-3" onclick="handleUpdateData({{ json_encode($item) }})" data-bs-toggle="modal" data-bs-target="#updateDataModal" data-bs-original-title="Chỉnh sửa thông tin">
-                                            <i class="fas fa-user-edit text-secondary">
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->created_at }}</p>
+                                    </td>
+
+
+                                    <td class="text-center">
+                                        <span class="mx-1" onclick="handleUpdateData({{ json_encode($item) }})" data-bs-toggle="modal" data-bs-target="#updateDataModal" data-bs-original-title="Chỉnh sửa thông tin">
+                                            <i class="fas fa-edit text-secondary">
                                             </i>
                                         </span>
                                         <span>
-                                            <span onclick="handleDeleteData({{ json_encode($item) }})" class="mx-3" data-bs-toggle="modal" data-bs-target="#deleteDataModal" data-bs-original-title="Xóa thông tin">
+                                            <span onclick="handleDeleteData({{ json_encode($item) }})" class="mx-1" data-bs-toggle="modal" data-bs-target="#deleteDataModal" data-bs-original-title="Xóa thông tin">
                                                 <i class="cursor-pointer fas fa-trash text-secondary"></i>
+                                            </span>
+                                        </span>
+                                        <span>
+                                            <span class="mx-1" data-bs-toggle="modal" data-bs-target="#fullScreenModal" data-bs-original-title="Fullscreen">
+                                                <i class="cursor-pointer fa fa-window-maximize" aria-hidden="true"></i>
+
                                             </span>
                                         </span>
                                     </td>
@@ -237,9 +338,20 @@
     function handleUpdateData(item) {
         setTimeout(() => {
             document.getElementById('update_form_id').value = item.id;
+
+
             document.getElementById('update_form_name').value = item.name;
-            document.getElementById('update_form_icon').value = item.icon;
-            document.getElementById('update_form_parent_category_id').value = item.parent_category_id;
+
+            document.getElementById('update_form_email').value = item.email;
+
+            // document.getElementById('update_form_password').value = item.password;
+
+            document.getElementById('update_form_phone').value = item.phone;
+
+            document.getElementById('update_form_location').value = item.location;
+
+            document.getElementById('update_form_about_me').value = item.about_me;
+
         }, 200);
     }
 
@@ -250,32 +362,32 @@
     }
 
     function confirmDelete() {
-        window.location.href = "/admin/category/delete/" + document.getElementById('delete_form_id').value;
+        window.location.href = "/admin/users/delete/" + document.getElementById('delete_form_id').value;
     }
 
     function goToPreviousPage(currentPage) {
         if (currentPage > 1) {
-            window.location.href = "{{ route('categories.filter') }}?page=" + (currentPage - 1) +
+            window.location.href = "{{ route('users.filter') }}?page=" + (currentPage - 1) +
                 "&size={{ $perPage }}&s={{ $searchQuery }}";
         }
     }
 
     function goToNextPage(currentPage, totalPages) {
         if (currentPage < totalPages) {
-            window.location.href = "{{ route('categories.filter') }}?page=" + (currentPage + 1) +
+            window.location.href = "{{ route('users.filter') }}?page=" + (currentPage + 1) +
                 "&size={{ $perPage }}&s={{ $searchQuery }}";
         }
     }
 
     function search(query) {
         if (query.target.value) {
-            let url = "{{ route('categories.filter') }}";
+            let url = "{{ route('users.filter') }}";
             let queryParams = new URLSearchParams(window.location.search);
             queryParams.set('s', query.target.value);
             queryParams.delete('page');
             window.location.href = url + '?' + queryParams.toString();
         } else {
-            window.location.href = "{{ route('categories.filter') }}";
+            window.location.href = "{{ route('users.filter') }}";
         }
     }
 </script>
