@@ -85,6 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/admin/products', [AdminProductsController::class, 'filterPage'])->name('products.filter');
 	Route::post('/admin/products/store', [AdminProductsController::class, 'createFunction'])->name('products.create');
 	Route::get('/admin/products/delete/{id}', [AdminProductsController::class, 'deleteFunction']);
+	Route::post('/admin/products/upload-excel',  [AdminProductsController::class, 'upload']);
 
 	// Orders
 	Route::get('/admin/orders', [AdminOrdersController::class, 'filterPage'])->name('orders.filter');
@@ -101,6 +102,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/admin/users', [AdminUsersController::class, 'filterPage'])->name('users.filter');
 	Route::post('/admin/users/store', [AdminUsersController::class, 'createFunction'])->name('users.create');
 	Route::get('/admin/users/delete/{id}', [AdminUsersController::class, 'deleteFunction']);
+
+	// routes/web.php
+
 });
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -56,7 +57,7 @@ class AdminUsersController extends Controller
         return view('admin/users/table', $templateVariables);
     }
 
-    public function createFunction(Request $request)
+    public function createFunction(Request $request, User $user)
     {
         $request->validate([
 
@@ -105,19 +106,12 @@ class AdminUsersController extends Controller
         } else {
             // Create new record
             $data = [
-
                 'name' => $request->name,
-
                 'email' => $request->email,
-
                 'password' => bcrypt($request->password),
-
                 'phone' => $request->phone,
-
                 'location' => $request->location,
-
                 'about_me' => $request->about_me,
-
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
