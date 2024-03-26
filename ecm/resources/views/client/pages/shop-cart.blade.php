@@ -65,7 +65,7 @@
                                         {{ $product->sell_price * $item->number_of_item }} VNĐ
                                     </td>
                                     <td class="shoping__cart__item__close">
-                                        <a href="#" onclick="return confirmAction('{{ route('removeFromCart', ['id' => $item->product_id]) }}');" class="icon_close"></a>
+                                        <button onclick="confirmAction('{{ route('removeFromCart', ['id' => $item->product_id]) }}');" class="btn btn-warning">Xoá</button>
                                     </td>
                                 </tr>
                             @endforeach
