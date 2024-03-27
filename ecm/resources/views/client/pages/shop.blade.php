@@ -188,7 +188,7 @@
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item__pic set-bg" data-setbg="${product.thumbnail_url}" style="background-image: url(${product.thumbnail_url});">
                                 <ul class="product__item__pic__hover">
-                                     <li><a href="javascript:void(0);" class="add-to-cart-btn" data-product-id="${product.id}" onclick="addToCart(${product.id})"><i class="fa fa-shopping-cart"></i>Thêm Sản Phẩm Vào Giỏ Hàng</a></li>
+                                     <li><a href="javascript:void(0);" class="add-to-cart-btn" data-product-id="${product.id}" onclick="addToCart(${product.id})"><i class="fa fa-shopping-cart"></i>Thêm hàng</a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">

@@ -158,6 +158,10 @@ Route::post('/paypal', [OrderController::class, 'paypal'])->name('paypal');
 Route::get('/success', [OrderController::class, 'success'])->name('success');
 Route::get('/cancel', [OrderController::class, 'cancel'])->name('cancel');
 
+//Route Authen Client
+Route::view('/login', 'client/authen/login');
+
+
 Route::view('/blog', 'client/pages/blog');
 Route::view('/contact', 'client/pages/contact');
 Route::view('/blog-details', 'client/pages/blog-details');
