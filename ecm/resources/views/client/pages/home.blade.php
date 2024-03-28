@@ -18,7 +18,8 @@
                                 </li>
                                 @foreach ($category as $cat)
                                     <li onclick="findProductByCategoryId({{$cat->id}})">
-                                        {{ $cat->name }}</li>
+                                        {{ $cat->name }}
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -268,22 +269,22 @@
             // Iterate over the items array and generate HTML for each item
             items.forEach(item => {
                 const itemHtml = `
-            <div class="col-lg-3 col-md-4 col-sm-6 mix">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg">
-                        <img src="${item.thumbnail_url}" alt="${item.name}">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg">
+                                <img src="${item.thumbnail_url}" alt="${item.name}">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="featured__item__text">
+                                <h6><a href="#">${item.name}</a></h6>
+                                <h5>${item.description}</h5>
+                            </div>
+                        </div>
                     </div>
-                    <div class="featured__item__text">
-                        <h6><a href="#">${item.name}</a></h6>
-                        <h5>${item.description}</h5>
-                    </div>
-                </div>
-            </div>
         `;
                 itemsContainer.innerHTML += itemHtml; // Append item HTML to container
             });
@@ -324,7 +325,7 @@
                             </div>
                             <div class="featured__item__text">
                                 <h6><a href="#">${product.name}</a></h6>
-                                <h5>$${product.price}</h5>
+                                <h5>${product.sell_price} VNĐ</h5>
                             </div>
                         </div>
                     </div>
