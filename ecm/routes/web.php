@@ -85,7 +85,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/admin/products', [AdminProductsController::class, 'filterPage'])->name('products.filter');
 	Route::post('/admin/products/store', [AdminProductsController::class, 'createFunction'])->name('products.create');
 	Route::get('/admin/products/delete/{id}', [AdminProductsController::class, 'deleteFunction']);
-	Route::post('/admin/products/upload-excel',  [AdminProductsController::class, 'upload']);
+	Route::post('/admin/products/upload-excel', [AdminProductsController::class, 'upload']);
 
 	// Orders
 	Route::get('/admin/orders', [AdminOrdersController::class, 'filterPage'])->name('orders.filter');
@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/admin/orders/delete/{id}', [AdminOrdersController::class, 'deleteFunction']);
 
 	// Product preview
-	Route::get('/admin/product_reviews', [AdminProductReviewsController::class, 'filterPage'])->name('product_reviews.filter');
+	Route::get('/admin/product/{id}/product_reviews', [AdminProductReviewsController::class, 'filterPage'])->name('product_reviews.filter');
 	Route::post('/admin/product_reviews/store', [AdminProductReviewsController::class, 'createFunction'])->name('product_reviews.create');
 	Route::get('/admin/product_reviews/delete/{id}', [AdminProductReviewsController::class, 'deleteFunction']);
 

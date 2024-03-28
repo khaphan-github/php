@@ -16,9 +16,9 @@
 <!DOCTYPE html>
 
 @if (\Request::is('rtl'))
-  <html dir="rtl" lang="ar">
+<html dir="rtl" lang="ar">
 @else
-  <html lang="en" >
+<html lang="en">
 @endif
 
 <head>
@@ -26,7 +26,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   @if (env('IS_DEMO'))
-      <x-demo-metas></x-demo-metas>
+  <x-demo-metas></x-demo-metas>
   @endif
 
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
@@ -43,29 +43,29 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link href="/admin/assets/css/nucleo-svg.css" rel="stylesheet" />
   <link href="/admin/assets/css/custom.css" rel="stylesheet" />
-  
+
   <!-- CSS Files -->
   <link id="pagestyle" href="/admin/assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
-  
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-100 {{ (\Request::is('rtl') ? 'rtl' : (Request::is('virtual-reality') ? 'virtual-reality' : '')) }} ">
   @auth
-    @yield('auth')
+  @yield('auth')
   @endauth
   @guest
-    @yield('guest')
+  @yield('guest')
   @endguest
 
-  @if(session()->has('success'))
+  <!-- @if(session()->has('success'))
     <div x-data="{ show: true}"
         x-init="setTimeout(() => show = false, 4000)"
         x-show="show"
         class="position-fixed bg-success rounded right-3 text-sm py-2 px-4">
       <p class="m-0">{{ session('success')}}</p>
     </div>
-  @endif
-    <!--   Core JS Files   -->
+  @endif -->
+  <!--   Core JS Files   -->
   <script src="/admin/assets/js/core/popper.min.js"></script>
   <script src="/admin/assets/js/core/bootstrap.min.js"></script>
   <script src="/admin/assets/js/plugins/perfect-scrollbar.min.js"></script>

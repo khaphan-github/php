@@ -221,9 +221,9 @@
                 <div class="card-header pb-0">
                     @if ($errors->any())
                     <div class="alert alert-warning">
-                            @foreach ($errors->all() as $error)
-                          <h5>  {{ $error }}</h5>
-                            @endforeach
+                        @foreach ($errors->all() as $error)
+                        <h5> {{ $error }}</h5>
+                        @endforeach
                     </div>
                     @endif
                     <div class="d-flex flex-row justify-content-between">
@@ -244,17 +244,17 @@
                                 <div class="row">
                                     <div class="col">
                                         <button type="button" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#createDataModal">
-                                           Thêm
+                                            Thêm
                                         </button>
                                     </div>
 
-                                        <div class="col">
-                                            <button type="button" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#formExcel">
-                                                Excel
-                                            </button>
-                                        </div>
+                                    <div class="col">
+                                        <button type="button" class="btn bg-gradient-primary btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#formExcel">
+                                            Excel
+                                        </button>
+                                    </div>
                                 </div>
-                        
+
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -390,10 +390,7 @@
                                             </span>
                                         </span>
                                         <span>
-                                            <span class="mx-1" data-bs-toggle="modal" data-bs-target="#fullScreenModal" data-bs-original-title="Fullscreen">
-                                                <i class="cursor-pointer fa fa-window-maximize" aria-hidden="true"></i>
-
-                                            </span>
+                                         <a href="{{ route('product_reviews.filter', ['id' => $item->id]) }}"><i class="fas fa-eye"></i></a>
                                         </span>
                                     </td>
                                 </tr>

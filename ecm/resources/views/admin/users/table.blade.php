@@ -307,11 +307,11 @@
                                             <i class="fas fa-edit text-secondary">
                                             </i>
                                         </span>
-                                        <span>
+                                        <!-- <span>
                                             <span onclick="handleDeleteData({{ json_encode($item) }})" class="mx-1" data-bs-toggle="modal" data-bs-target="#deleteDataModal" data-bs-original-title="Xóa thông tin">
                                                 <i class="cursor-pointer fas fa-trash text-secondary"></i>
                                             </span>
-                                        </span>
+                                        </span> -->
                                         <span>
                                             <span class="mx-1" data-bs-toggle="modal" data-bs-target="#fullScreenModal" data-bs-original-title="Fullscreen">
                                                 <i class="cursor-pointer fa fa-window-maximize" aria-hidden="true"></i>

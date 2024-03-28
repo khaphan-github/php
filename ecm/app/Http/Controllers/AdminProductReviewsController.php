@@ -19,26 +19,20 @@ class AdminProductReviewsController extends Controller
         $query = DB::table('product_review');
 
         if (!empty($search)) {
+            $query->where(function ($query) use ($search) {
+                $query->where('user_id', 'like', '%' . $search . '%')
+                    ->orWhere('rating', 'like', '%' . $search . '%')
+                    ->orWhere('comment', 'like', '%' . $search . '%')
+                    ->orWhere('image_url', 'like', '%' . $search . '%')
+                    ->orWhere('like_number', 'like', '%' . $search . '%')
+                    ->orWhere('title', 'like', '%' . $search . '%')
+                    ->orWhere('updated_at', 'like', '%' . $search . '%')
+                    ->orWhere('created_at', 'like', '%' . $search . '%');
+            });
+        }
 
-            $query
-
-                ->orWhere('product_id', 'like', '%' . $search . '%')
-
-                ->orWhere('user_id', 'like', '%' . $search . '%')
-
-                ->orWhere('rating', 'like', '%' . $search . '%')
-
-                ->orWhere('comment', 'like', '%' . $search . '%')
-
-                ->orWhere('image_url', 'like', '%' . $search . '%')
-
-                ->orWhere('like_number', 'like', '%' . $search . '%')
-
-                ->orWhere('title', 'like', '%' . $search . '%')
-
-                ->orWhere('updated_at', 'like', '%' . $search . '%')
-
-                ->orWhere('created_at', 'like', '%' . $search . '%');
+        if ($request->has('product_id')) {
+            $query->where('product_id', $request->query('product_id'));
         }
 
         $listItem = $query->paginate($size, ['*'], 'page', $page);
@@ -55,7 +49,6 @@ class AdminProductReviewsController extends Controller
 
         return view('admin/product_review/table', $templateVariables);
     }
-
     public function createFunction(Request $request)
     {
         $request->validate([
