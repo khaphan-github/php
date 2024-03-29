@@ -12,9 +12,9 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProdController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -89,6 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Orders
 	Route::get('/admin/orders', [AdminOrdersController::class, 'filterPage'])->name('orders.filter');
+	Route::get('/admin/orders/{id}/details', [AdminOrdersController::class, 'getOrderDetail'])->name('orders.getOrderDetail');
 	Route::post('/admin/orders/store', [AdminOrdersController::class, 'createFunction'])->name('orders.create');
 	Route::get('/admin/orders/delete/{id}', [AdminOrdersController::class, 'deleteFunction']);
 
@@ -104,7 +105,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/admin/users/delete/{id}', [AdminUsersController::class, 'deleteFunction']);
 
 	// routes/web.php
-
 });
 
 
@@ -133,16 +133,16 @@ Route::post('/admin/category/create', [TestController::class, 'store'])->name('a
 
 //Route Home
 Route::view('/home', 'client/pages/home');
-Route::get('/home', [ProductController::class, 'home'])->name('home');
-Route::get('/', [ProductController::class, 'home'])->name('home');
+Route::get('/home', [ProdController::class, 'home'])->name('home');
+Route::get('/', [ProdController::class, 'home'])->name('home');
 
 //Route Shop
 Route::view('/shop', 'client/pages/shop');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::view('/shop-details', 'client/pages/shop-details');
-Route::get('/product/{id}', [ProductController::class, 'productDetails'])->name('shop-details');
-Route::post('/add-to-cart', [ProductController::class, 'addToCart'])->name('add-to-cart');
-Route::post('/update-cart', [ProductController::class, 'updateCart'])->name('updateCart');
+Route::get('/product/{id}', [ProdController::class, 'productDetails'])->name('shop-details');
+Route::post('/add-to-cart', [ProdController::class, 'addToCart'])->name('add-to-cart');
+Route::post('/update-cart', [ProdController::class, 'updateCart'])->name('updateCart');
 
 //Route Cart
 Route::view('/shop-cart', 'client/pages/shop-cart');

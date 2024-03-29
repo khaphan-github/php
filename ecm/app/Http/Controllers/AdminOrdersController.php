@@ -94,7 +94,19 @@ class AdminOrdersController extends Controller
 
     public function deleteFunction($id)
     {
-        $deletedRows = DB::table('order')->delete((int)$id);
+        $deletedRows = DB::table('order')->delete((int) $id);
         return back();
+    }
+
+    public function getOrderDetail($id) {
+        $listItem = DB::table('order_detail')
+            ->select('order_detail.*', 'product.*')
+            ->leftJoin('product', 'order_detail.product_id', '=', 'product.id')
+            ->where('order_detail.order_id', '=', $id)
+            ->get();
+        $templateVariables = [
+            'listItem' => $listItem,
+        ];
+        return view('admin/order-details/table', $templateVariables);
     }
 }

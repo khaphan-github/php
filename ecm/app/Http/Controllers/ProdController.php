@@ -1,14 +1,14 @@
-
 <?php
+
+namespace App\Http\Controllers;
+
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Category;
-use Illuminate\Support\Facades\DB;
 use App\Services\CartService;
-use function Laravel\Prompts\table;
+use Illuminate\Support\Facades\DB;
 
-class ProductController extends Controller
+class ProdController extends Controller
 {
     /**
      * Display the specified resource in home page.
@@ -133,10 +133,10 @@ class ProductController extends Controller
         DB::table('cart')->where('product_id', $id)->update(['number_of_item' => $number_of_item]);
 
         return response()->json([
-            'name' => $product->name,
+            //   'name' => $product->name,
             'number_of_item' => $number_of_item,
-            'sell_price' => $product->sell_price,
-            'thumbnail_url' => $product->thumbnail_url,
+            //   'sell_price' => $product->sell_price,
+            //  'thumbnail_url' => $product->thumbnail_url,
             'message' => 'Product updated from cart successfully!'
         ]);
     }

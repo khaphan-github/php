@@ -256,21 +256,9 @@
 
 
                                     <td class="text-center">
-                                        <span class="mx-1" onclick="handleUpdateData({{ json_encode($item) }})" data-bs-toggle="modal" data-bs-target="#updateDataModal" data-bs-original-title="Chỉnh sửa thông tin">
-                                            <i class="fas fa-edit text-secondary">
-                                            </i>
-                                        </span>
-                                        <span>
-                                            <span onclick="handleDeleteData({{ json_encode($item) }})" class="mx-1" data-bs-toggle="modal" data-bs-target="#deleteDataModal" data-bs-original-title="Xóa thông tin">
-                                                <i class="cursor-pointer fas fa-trash text-secondary"></i>
-                                            </span>
-                                        </span>
-                                        <span>
-                                            <span class="mx-1" data-bs-toggle="modal" data-bs-target="#fullScreenModal" data-bs-original-title="Fullscreen">
-                                                <i class="cursor-pointer fa fa-window-maximize" aria-hidden="true"></i>
-
-                                            </span>
-                                        </span>
+                                        <a  href="/admin/orders/{{$item->id}}/details" class="mx-1" title="Chỉnh sửa thông tin">
+                                          <i class="fa fa-solid fa-eye"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
