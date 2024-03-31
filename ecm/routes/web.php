@@ -16,6 +16,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -158,12 +160,20 @@ Route::post('/paypal', [OrderController::class, 'paypal'])->name('paypal');
 Route::get('/success', [OrderController::class, 'success'])->name('success');
 Route::get('/cancel', [OrderController::class, 'cancel'])->name('cancel');
 
+//Route Contact
+Route::view('/contact', 'client/pages/contact');
+Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
+
+//Route Profile
+Route::view('/profile', 'client/pages/profile');
+Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+
 //Route Authen Client
 Route::view('/login', 'client/authen/login');
 
 
 Route::view('/blog', 'client/pages/blog');
-Route::view('/contact', 'client/pages/contact');
+
 Route::view('/blog-details', 'client/pages/blog-details');
 
 
