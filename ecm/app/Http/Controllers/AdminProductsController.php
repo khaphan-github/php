@@ -160,7 +160,7 @@ class AdminProductsController extends Controller
 
         // Read the Excel file
         $filePath = public_path('uploads') . '/' . $fileName;
-        $data = Excel::toArray([], $filePath)[0];
+        // $data = Excel::toArray([], $filePath)[0];
 
         // Remove the header row
         array_shift($data);

@@ -2,54 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Category;
-use Illuminate\Support\Facades\DB;
-use App\Services\CartService;
-use function Laravel\Prompts\table;
 
-class ProductController extends Controller
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Services\CartService;
+use Illuminate\Support\Facades\DB;
+
+class ProdController extends Controller
 {
     /**
      * Display the specified resource in home page.
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function home(Request $request)
-    {   
+    {
 
         $cartService = new CartService();
         $totalHeader = $cartService->calculateTotal();
 
         // Khởi tạo query để lấy sản phẩm
-        $query = DB::table('product')->select('*'); 
-        
+        $query = DB::table('product')->select('*');
+
         // Áp dụng bộ lọc theo tên sản phẩm nếu có
         if ($request->filled('productName')) {
             $query->where('name', 'like', '%' . $request->productName . '%');
         }
-        
+
         // Áp dụng bộ lọc theo danh mục sản phẩm nếu có
         if ($request->filled('categoryId')) {
             $query->where('id', '=', $request->categoryId);
         }
-        
+
         // Thực thi truy vấn và lấy kết quả
         $products = $query->get(); // Lấy tất cả sản phẩm phù hợp với bộ lọc
-        
+
         // Chuẩn bị biến để truyền sang view
         $templateVariables = [
             'product' => $products,
             'totalHeader' => $totalHeader
         ];
-        
+
         // Trả về view kèm theo dữ liệu sản phẩm và danh mục
         return view('client.pages.home', $templateVariables);
     }
 
-    public function getProductCategoryId(Request $request){
-       // Validate the request to ensure 'categoryId' is provided
+    public function getProductCategoryId(Request $request)
+    {
+        // Validate the request to ensure 'categoryId' is provided
         $request->validate([
             'categoryId' => 'required|integer|exists:categories,id',
         ]);
@@ -77,7 +79,7 @@ class ProductController extends Controller
 
         // Tìm sản phẩm dựa trên ID
         $product = DB::table('product')->where('id', $id)->first();
-        
+
         if (!$product) {
             return response()->json(['error' => 'Product not found!'], 404);
         }
@@ -96,8 +98,6 @@ class ProductController extends Controller
             // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
             $created_at = $existingCartItem->created_at;
             $updated_at = now();
-
-
         } else {
             // Nếu chưa, thêm mới sản phẩm vào giỏ hàng với số lượng là 1 trong cơ sở dữ liệu
             DB::table('cart')->insert([
@@ -110,17 +110,18 @@ class ProductController extends Controller
             // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
             $created_at = now();
             $updated_at = now();
-           
         }
         // Trả về response thành công
-        return response()->json(['product_id' => $id,
-                                'name' => $product->name,
-                                'number_of_item' => $existingCartItem ? $existingCartItem->number_of_item + 1 : 1,
-                                'sell_price' => $product->sell_price,
-                                'thumbnail_url' => $product->thumbnail_url,
-                                'created_at' => $created_at,
-                                'updated_at' => $updated_at,
-                                'success'=> true]);
+        return response()->json([
+            'product_id' => $id,
+            'name' => $product->name,
+            'number_of_item' => $existingCartItem ? $existingCartItem->number_of_item + 1 : 1,
+            'sell_price' => $product->sell_price,
+            'thumbnail_url' => $product->thumbnail_url,
+            'created_at' => $created_at,
+            'updated_at' => $updated_at,
+            'success' => true
+        ]);
     }
 
     public function updateCart(Request $request)
@@ -131,14 +132,17 @@ class ProductController extends Controller
         // Cập nhật số lượng sản phẩm trong giỏ hàng trong cơ sở dữ liệu
         DB::table('cart')->where('product_id', $id)->update(['number_of_item' => $number_of_item]);
 
-        return response()->json(['name' => $product->name,
-                                'number_of_item' => $number_of_item,
-                                'sell_price' => $product->sell_price,
-                                'thumbnail_url' => $product->thumbnail_url,
-                                'message' => 'Product updated from cart successfully!']);
+        return response()->json([
+            //   'name' => $product->name,
+            'number_of_item' => $number_of_item,
+            //   'sell_price' => $product->sell_price,
+            //  'thumbnail_url' => $product->thumbnail_url,
+            'message' => 'Product updated from cart successfully!'
+        ]);
     }
 
-    public function productDetails($id){
+    public function productDetails($id)
+    {
 
         $cartService = new CartService();
         $totalHeader = $cartService->calculateTotal();
@@ -158,9 +162,5 @@ class ProductController extends Controller
         ];
 
         return view('client.pages.shop-details', $templateVariables);
-
     }
-
-
-    
 }
