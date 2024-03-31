@@ -131,18 +131,31 @@
                             </div>
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
+                                    <div class="contact-form spad">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="contact__form__title">
+                                                        <h2>Bình Luận</h2>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <form action="#">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <input type="text" placeholder="Your name">
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6">
+                                                        <input type="text" placeholder="Your Email">
+                                                    </div>
+                                                    <div class="col-lg-12 text-center">
+                                                        <textarea placeholder="Your message"></textarea>
+                                                        <button type="submit" class="site-btn">Gửi Đánh Giá</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
