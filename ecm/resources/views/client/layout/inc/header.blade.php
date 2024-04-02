@@ -68,7 +68,10 @@
                         <ul>
                             <li class="{{ Request::is('home') ? 'active' : '' }}"><a href="{{ url('/home') }}">Trang chủ</a></li>
                             <li class="{{ Request::is('shop') ? 'active' : '' }}"><a href="{{ url('/shop') }}">Cửa hàng</a></li>
-                            <li class="{{ Request::is('profile') ? 'active' : '' }}"><a href="{{ url('/profile') }}">Liên hệ</a></li>
+                              @if(auth()->user())
+                            <li class="{{ Request::is('profile') ? 'active' : '' }}"><a href="{{ url('/profile') }}">Cá nhân</a></li>
+                            @endif
+
                         </ul>
                     </nav>
                 </div>
