@@ -24,11 +24,14 @@ class CartController extends Controller
         // Khởi tạo biến tổng cộng và tổng tiền
         $total = 0;
 
-        // Duyệt qua từng sản phẩm trong giỏ hàng để tính toán tổng cộng và tổng số tiền
-        foreach ($cart as $item) {
-            $product = DB::table('product')->where('id', $item->product_id)->first();
-            // Tính tổng cộng cho mỗi sản phẩm
-            $total += $product->sell_price * $item->number_of_item;
+
+        if (!$cart) {
+            // Duyệt qua từng sản phẩm trong giỏ hàng để tính toán tổng cộng và tổng số tiền
+            foreach ($cart as $item) {
+                $product = DB::table('product')->where('id', $item->product_id)->first();
+                // Tính tổng cộng cho mỗi sản phẩm
+                $total += $product->sell_price * $item->number_of_item;
+            }
         }
 
         // Chuẩn bị biến để truyền sang view
@@ -111,11 +114,11 @@ class CartController extends Controller
         // Cập nhật số lượng sản phẩm trong giỏ hàng trong cơ sở dữ liệu
         DB::table('cart')->where('product_id', $id)->update(['number_of_item' => $number_of_item]);
 
-        // return response()->json(['name' => $product->name,
-                            //    'number_of_item' => $number_of_item,
-                              //  'sell_price' => $product->sell_price,
-                               //  'thumbnail_url' => $product->thumbnail_url,
-                                // 'message' => 'Product updated from cart successfully!']);
+        return response()->json(['name' => $product->name,
+                                'number_of_item' => $number_of_item,
+                                'sell_price' => $product->sell_price,
+                                 'thumbnail_url' => $product->thumbnail_url,
+                                 'message' => 'Product updated from cart successfully!']);
     }
     
 }

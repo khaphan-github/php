@@ -287,7 +287,11 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert("Đã xảy ra lỗi!")
+                if (confirm("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng, vui lòng kiểm tra lại phiên đăng nhập") == true) {
+                    window.location.href = '/login';
+                } else {
+                    text = "You canceled!";
+                }
             });
         }
     </script>

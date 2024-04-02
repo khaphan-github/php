@@ -133,10 +133,10 @@ class ProdController extends Controller
         DB::table('cart')->where('product_id', $id)->update(['number_of_item' => $number_of_item]);
 
         return response()->json([
-            //   'name' => $product->name,
+            'name' => $product->name,
             'number_of_item' => $number_of_item,
-            //   'sell_price' => $product->sell_price,
-            //  'thumbnail_url' => $product->thumbnail_url,
+            'sell_price' => $product->sell_price,
+            'thumbnail_url' => $product->thumbnail_url,
             'message' => 'Product updated from cart successfully!'
         ]);
     }

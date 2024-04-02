@@ -12,9 +12,11 @@ class CartService
         $cartItems = DB::table('cart')->get();
         $totalHeader = 0;
 
-        foreach ($cartItems as $item) {
-            $product = DB::table('product')->where('id', $item->product_id)->first();
-            $totalHeader += $product->sell_price * $item->number_of_item;
+        if ($cartItems !== null) {
+            foreach ($cartItems as $item) {
+                $product = DB::table('product')->where('id', $item->product_id)->first();
+                $totalHeader += $product->sell_price * $item->number_of_item;
+            }
         }
 
         return $totalHeader;

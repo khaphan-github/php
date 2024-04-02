@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth', 'role_md'], function () {
 
 	Route::get('/', [HomeController::class, 'home']);
 	Route::get('dashboard', function () {
@@ -47,21 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('admin/profile');
 	})->name('profile');
 
-	Route::get('rtl', function () {
-		return view('admin/rtl');
-	})->name('rtl');
-
 	Route::get('user-management', function () {
 		return view('admin/user-management');
 	})->name('user-management');
-
-	Route::get('tables', function () {
-		return view('admin/tables');
-	})->name('tables');
-
-	Route::get('virtual-reality', function () {
-		return view('admin/virtual-reality');
-	})->name('virtual-reality');
 
 	Route::get('static-sign-in', function () {
 		return view('admin/static-sign-in');
@@ -71,12 +59,14 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('admin/static-sign-up');
 	})->name('sign-up');
 
-	Route::get('/logout', [SessionsController::class, 'destroy']);
+	Route::get('admin/logout', [SessionsController::class, 'destroy'])->name('admin.logout');
 	Route::get('/user-profile', [InfoUserController::class, 'create']);
 	Route::post('/user-profile', [InfoUserController::class, 'store']);
+	/**
 	Route::get('/login', function () {
 		return view('dashboard');
 	})->name('sign-up');
+	*/
 
 	// Category
 	Route::get('/admin/category', [AdminCategoryController::class, 'filterPage'])->name('categories.filter');
@@ -114,7 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'guest'], function () {
 	Route::get('/register', [RegisterController::class, 'create']);
 	Route::post('/register', [RegisterController::class, 'store']);
-	Route::get('/login', [SessionsController::class, 'create']);
+	// Route::get('/login', [SessionsController::class, 'create']);
 	Route::post('/session', [SessionsController::class, 'store']);
 	Route::get('/login/forgot-password', [ResetController::class, 'create']);
 	Route::post('/forgot-password', [ResetController::class, 'sendEmail']);
@@ -122,11 +112,11 @@ Route::group(['middleware' => 'guest'], function () {
 	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 });
 
-Route::get('/login', function () {
+Route::get('/admin/login', function () {
 	return view('session/login-session');
-})->name('login');
+})->name('admin.login');
 
-
+Route::view('/login', 'client/authen/login')->name('u.login');
 // Route includes 
 
 //Route Admin
@@ -143,38 +133,37 @@ Route::view('/shop', 'client/pages/shop');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::view('/shop-details', 'client/pages/shop-details');
 Route::get('/product/{id}', [ProdController::class, 'productDetails'])->name('shop-details');
-Route::post('/add-to-cart', [ProdController::class, 'addToCart'])->name('add-to-cart');
-Route::post('/update-cart', [ProdController::class, 'updateCart'])->name('updateCart');
 
-//Route Cart
-Route::view('/shop-cart', 'client/pages/shop-cart');
-Route::get('/shop-cart', [CartController::class, 'cart'])->name('cart');
-Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
-Route::post('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
-Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
 
-//Route Checkout
-Route::view('/checkout', 'client/pages/checkout');
-Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
-Route::post('/paypal', [OrderController::class, 'paypal'])->name('paypal');
-Route::get('/success', [OrderController::class, 'success'])->name('success');
-Route::get('/cancel', [OrderController::class, 'cancel'])->name('cancel');
 
-//Route Contact
-Route::view('/contact', 'client/pages/contact');
-Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
-
-//Route Profile
-Route::view('/profile', 'client/pages/profile');
-Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
-
+Route::group(['middleware' => 'auth'], function () {
+	Route::post('/update-cart', [ProdController::class, 'updateCart'])->name('updateCart');
+	Route::post('/add-to-cart', [ProdController::class, 'addToCart'])->name('add-to-cart');
+	//Route Cart
+	Route::view('/shop-cart', 'client/pages/shop-cart');
+	Route::get('/shop-cart', [CartController::class, 'cart'])->name('cart');
+	Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
+	Route::post('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
+	Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
+	
+	//Route Checkout
+	Route::view('/checkout', 'client/pages/checkout');
+	Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+	Route::post('/paypal', [OrderController::class, 'paypal'])->name('paypal');
+	Route::get('/success', [OrderController::class, 'success'])->name('success');
+	Route::get('/cancel', [OrderController::class, 'cancel'])->name('cancel');
+	
+	//Route Contact
+	Route::view('/contact', 'client/pages/contact');
+	Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
+	
+	//Route Profile
+	Route::view('/profile', 'client/pages/profile');
+	Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+});
+	
 //Route Authen Client
-Route::view('/login', 'client/authen/login');
-
 
 Route::view('/blog', 'client/pages/blog');
-
 Route::view('/blog-details', 'client/pages/blog-details');
-
-
 Route::view('/NotFoundItem', 'client/pages/NotFoundItem');

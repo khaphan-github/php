@@ -6,6 +6,7 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SessionsController extends Controller
 {
@@ -21,23 +22,20 @@ class SessionsController extends Controller
             'password' => 'required'
         ]);
 
-        $current_user = DB::table('users')->where('email', $request->email)->first();
+        // $current_user = DB::table('users')->where('email', $request->email)->first();
 
-        if (Auth::attempt($attributes)) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             session()->regenerate();
             session(session()->getId(), $current_user->about_me);
             return redirect('dashboard')->with(['success' => 'You are logged in.']);
         } else {
-
             return back()->withErrors(['email' => 'Email or password invalid.']);
         }
     }
 
     public function destroy()
     {
-
         Auth::logout();
-
-        return redirect('/login')->with(['success' => 'You\'ve been logged out.']);
+        return redirect('u/login')->with(['success' => 'You\'ve been logged out.']);
     }
 }

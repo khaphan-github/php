@@ -38,25 +38,26 @@
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="#">
-                <h1>Sign in</h1>
+            <!-- resources/views/auth/login.blade.php -->
+            <form method="POST" action="{{ route('u.login') }}">
+                @csrf
+                <h1>Đăng nhập</h1>
                 <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- Add social login buttons here if needed -->
                 </div>
                 <span>or use your account</span>
                 <div class="infield">
-                    <input type="email" placeholder="Email" name="email"/>
+                    <input type="email" placeholder="Email" name="email" required />
                     <label></label>
                 </div>
                 <div class="infield">
-                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Password" name="password" required />
                     <label></label>
                 </div>
                 <a href="#" class="forgot">Forgot your password?</a>
-                <button>Sign In</button>
+                <button type="submit">Đăng nhập</button>
             </form>
+
         </div>
         <div class="overlay-container" id="overlayCon">
             <div class="overlay">
