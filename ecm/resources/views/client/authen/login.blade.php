@@ -39,7 +39,7 @@
         </div>
         <div class="form-container sign-in-container">
             <!-- resources/views/auth/login.blade.php -->
-            <form method="POST" action="{{ route('u.login') }}">
+            <form method="POST" action="{{ url('session') }}">
                 @csrf
                 <h1>Đăng nhập</h1>
                 <div class="social-container">

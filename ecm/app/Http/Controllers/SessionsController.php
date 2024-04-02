@@ -22,20 +22,31 @@ class SessionsController extends Controller
             'password' => 'required'
         ]);
 
-        // $current_user = DB::table('users')->where('email', $request->email)->first();
+        $current_user = DB::table('users')->where('email', $request->email)->first();
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             session()->regenerate();
-            session(session()->getId(), $current_user->about_me);
-            return redirect('dashboard')->with(['success' => 'You are logged in.']);
+            if ($current_user->about_me == 'ADMIN') {
+                return redirect('dashboard')->with(['success' => 'You are logged in.']);
+            } else {
+                return redirect('shop')->with(['success' => 'You are logged in.']);
+            }
         } else {
             return back()->withErrors(['email' => 'Email or password invalid.']);
         }
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
+        // Access specific form fields
+        $current_user = DB::table('users')->where('email', $request->email)->first();
         Auth::logout();
-        return redirect('u/login')->with(['success' => 'You\'ve been logged out.']);
+
+        if ($current_user->about_me == 'ADMIN') {
+                return redirect('admin/login')->with(['success' => 'You\'ve been logged out.']);
+
+            } else {
+                return redirect('u/login')->with(['success' => 'You\'ve been logged out.']);
+            }
     }
 }

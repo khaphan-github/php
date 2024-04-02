@@ -68,14 +68,14 @@
                         <ul>
                             <li class="{{ Request::is('home') ? 'active' : '' }}"><a href="{{ url('/home') }}">Trang chủ</a></li>
                             <li class="{{ Request::is('shop') ? 'active' : '' }}"><a href="{{ url('/shop') }}">Cửa hàng</a></li>
-                            <li class="{{ Request::is('contact') ? 'active' : '' }}"><a href="{{ url('/contact') }}">Liên hệ</a></li>
+                            <li class="{{ Request::is('profile') ? 'active' : '' }}"><a href="{{ url('/profile') }}">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="#"><i class="fa fa-user"></i> <span>1</span></a></li>
+                            <li><a href="/profile"><i class="fa fa-user"></i> <span>1</span></a></li>
                             <li><a href="{{ route('cart') }}"><i class="fa fa-shopping-bag"></i> <span id="cartItemCount">{{ DB::table('cart')->count() }}</span></a></li>
                         </ul>
                         <div class="header__cart__price">Tổng tiền: <span>{{$totalHeader}} VNĐ</span></div>
