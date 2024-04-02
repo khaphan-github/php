@@ -75,7 +75,18 @@
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="/profile"><i class="fa fa-user"></i> <span>1</span></a></li>
+                              @if(auth()->user())
+                            <li>
+                                <a href="{{ route('logout') }}" class="nav-link text-body font-weight-bold px-0">
+Đăng xuất
+                                </a>
+                            </li>
+                            @else
+                           <li>
+                                <a href="/profile" class="nav-link text-body font-weight-bold px-0">Đăng nhập</a>
+                            </li>
+                            @endif
+
                             <li><a href="{{ route('cart') }}"><i class="fa fa-shopping-bag"></i> <span id="cartItemCount">{{ DB::table('cart')->count() }}</span></a></li>
                         </ul>
                         <div class="header__cart__price">Tổng tiền: <span>{{$totalHeader}} VNĐ</span></div>

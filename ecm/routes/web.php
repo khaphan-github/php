@@ -59,7 +59,7 @@ Route::group(['middleware' => 'auth', 'role_md'], function () {
 		return view('admin/static-sign-up');
 	})->name('sign-up');
 
-	Route::get('admin/logout', [SessionsController::class, 'destroy'])->name('admin.logout');
+	Route::get('/logout', [SessionsController::class, 'destroy'])->name('logout');
 	Route::get('/user-profile', [InfoUserController::class, 'create']);
 	Route::post('/user-profile', [InfoUserController::class, 'store']);
 	/**

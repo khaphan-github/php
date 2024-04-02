@@ -39,14 +39,9 @@ class SessionsController extends Controller
     public function destroy(Request $request)
     {
         // Access specific form fields
-        $current_user = DB::table('users')->where('email', $request->email)->first();
         Auth::logout();
 
-        if ($current_user->about_me == 'ADMIN') {
-                return redirect('admin/login')->with(['success' => 'You\'ve been logged out.']);
+                return redirect('/')->with(['success' => 'You\'ve been logged out.']);
 
-            } else {
-                return redirect('u/login')->with(['success' => 'You\'ve been logged out.']);
-            }
     }
 }
