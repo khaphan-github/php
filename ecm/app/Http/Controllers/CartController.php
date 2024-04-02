@@ -13,7 +13,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class CartController extends Controller
 {
     // Hiển thị trang giỏ hàng với sản phẩm đã thêm
-    public function cart(Request $request)
+    public function index(Request $request)
     {
         $cartService = new CartService();
         $totalHeader = $cartService->calculateTotal();
@@ -119,6 +119,6 @@ class CartController extends Controller
                                 'sell_price' => $product->sell_price,
                                  'thumbnail_url' => $product->thumbnail_url,
                                  'message' => 'Product updated from cart successfully!']);
-    }
+                                   }
     
 }

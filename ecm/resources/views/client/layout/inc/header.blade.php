@@ -87,7 +87,7 @@
                             </li>
                             @endif
 
-                            <li><a href="{{ route('cart') }}"><i class="fa fa-shopping-bag"></i> <span id="cartItemCount">{{ DB::table('cart')->count() }}</span></a></li>
+                            <li><a href="{{ url('shop-cart') }}"><i class="fa fa-shopping-bag"></i> <span id="cartItemCount">{{ DB::table('cart')->count() }}</span></a></li>
                         </ul>
                         <div class="header__cart__price">Tổng tiền: <span>{{$totalHeader}} VNĐ</span></div>
                     </div>

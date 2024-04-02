@@ -186,15 +186,22 @@
             products.forEach(product => {
                 const productHTML = `
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="product__item__pic set-bg" data-setbg="${product.thumbnail_url}" style="background-image: url(${product.thumbnail_url});">
-                                <ul class="product__item__pic__hover">
-                                     <li><a href="javascript:void(0);" class="add-to-cart-btn" data-product-id="${product.id}" onclick="addToCart(${product.id})"><i class="fa fa-shopping-cart"></i>Thêm hàng</a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#" onclick="showProductDetails(${product.id})">${product.name}</a></h6>
-                                <h5>${product.sell_price} VNĐ</h5>
-                            </div>
+                    <div class="product-item" >
+                    <div class="position-relative bg-light overflow-hidden">
+                    <img class="img-fluid w-100" src="${product.thumbnail_url}" alt="">
+                    <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">New</div>
+                    </div>
+                    <div class="text-center p-4">
+                    <h5 class="d-block h5 mb-2"  onclick="showProductDetails(${product.id})" >${product.name}</h5>
+                    <h5 class="text-body ">${product.sell_price}  VND</h5>
+                    </div>
+                    <div class="d-flex align-item-center border-top">
+                        <div class="col">
+                            <button type="button" class="btn btn-block site-btn" onclick="addToCart(${product.id})">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
             `;
                 container.innerHTML += productHTML;
             });

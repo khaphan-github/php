@@ -42,7 +42,7 @@
                                 @endphp
                                 <tr>
                                     <td class="shoping__cart__item">
-                                        <img src="{{ $product->thumbnail_url }}" alt="{{ $product->name }}">
+                                        <!-- <img src="{{ $product->thumbnail_url }}" alt="{{ $product->name }}"> -->
                                         <h5><a href="{{ route('shop-details', ['id' => $product->id]) }}">{{ $product->name }}</a></h5>
                                     </td>
                                     <td class="shoping__cart__price">

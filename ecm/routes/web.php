@@ -140,8 +140,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/update-cart', [ProdController::class, 'updateCart'])->name('updateCart');
 	Route::post('/add-to-cart', [ProdController::class, 'addToCart'])->name('add-to-cart');
 	//Route Cart
-	Route::view('/shop-cart', 'client/pages/shop-cart');
-	Route::get('/shop-cart', [CartController::class, 'cart'])->name('cart');
+	Route::get('/shop-cart', [CartController::class, 'index']);
 	Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
 	Route::post('/update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 	Route::get('/remove-from-cart/{id}', [CartController::class, 'removeFromCart'])->name('removeFromCart');
