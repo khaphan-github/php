@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\CartService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
@@ -101,6 +102,7 @@ class OrderController extends Controller
                 'payment_method' => $payment_method,
                 'created_at' => $created_at,
                 'updated_at' => $created_at,
+                'user_id' => Auth::user()->id,
             ]);
 
 

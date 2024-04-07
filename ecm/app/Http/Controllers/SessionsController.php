@@ -23,7 +23,6 @@ class SessionsController extends Controller
         ]);
 
         $current_user = DB::table('users')->where('email', $request->email)->first();
-
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             session()->regenerate();
             if ($current_user->about_me == 'ADMIN') {

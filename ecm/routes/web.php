@@ -6,7 +6,6 @@ use App\Http\Controllers\AdminProductReviewsController;
 use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\ChangePasswordController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetController;
@@ -32,16 +31,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => 'auth', 'role_md'], function () {
-
-	Route::get('/', [HomeController::class, 'home']);
+Route::group(['middleware' => 'AdminRole'], function () {
 	Route::get('dashboard', function () {
 		return view('admin/dashboard');
 	})->name('dashboard');
-
-	Route::get('billing', function () {
-		return view('admin/billing');
-	})->name('billing');
 
 	Route::get('profile', function () {
 		return view('admin/profile');
@@ -62,6 +55,7 @@ Route::group(['middleware' => 'auth', 'role_md'], function () {
 	Route::get('/logout', [SessionsController::class, 'destroy'])->name('logout');
 	Route::get('/user-profile', [InfoUserController::class, 'create']);
 	Route::post('/user-profile', [InfoUserController::class, 'store']);
+	
 	/**
 	Route::get('/login', function () {
 		return view('dashboard');
@@ -100,7 +94,6 @@ Route::group(['middleware' => 'auth', 'role_md'], function () {
 });
 
 
-
 Route::group(['middleware' => 'guest'], function () {
 	Route::get('/register', [RegisterController::class, 'create']);
 	Route::post('/register', [RegisterController::class, 'store']);
@@ -112,11 +105,8 @@ Route::group(['middleware' => 'guest'], function () {
 	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
 });
 
-Route::get('/admin/login', function () {
-	return view('session/login-session');
-})->name('admin.login');
-
 Route::view('/login', 'client/authen/login')->name('u.login');
+// Route::view('/admin/login', 'session/login-session')->name('admin.login');
 // Route includes 
 
 //Route Admin
@@ -135,8 +125,7 @@ Route::view('/shop-details', 'client/pages/shop-details');
 Route::get('/product/{id}', [ProdController::class, 'productDetails'])->name('shop-details');
 
 
-
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'UserRole'], function () {
 	Route::post('/update-cart', [ProdController::class, 'updateCart'])->name('updateCart');
 	Route::post('/add-to-cart', [ProdController::class, 'addToCart'])->name('add-to-cart');
 	//Route Cart
