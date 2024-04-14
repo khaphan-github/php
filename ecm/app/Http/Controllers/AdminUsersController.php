@@ -14,36 +14,23 @@ class AdminUsersController extends Controller
     {
         $page = $request->query('page', 1);
         $size = $request->query('size', 10);
-
         $search = $request->query('s');
-
         $query = DB::table('users');
 
         if (!empty($search)) {
-
             $query
-
                 ->orWhere('name', 'like', '%' . $search . '%')
-
                 ->orWhere('email', 'like', '%' . $search . '%')
-
                 ->orWhere('password', 'like', '%' . $search . '%')
-
                 ->orWhere('phone', 'like', '%' . $search . '%')
-
                 ->orWhere('location', 'like', '%' . $search . '%')
-
                 ->orWhere('about_me', 'like', '%' . $search . '%')
-
                 ->orWhere('remember_token', 'like', '%' . $search . '%')
-
                 ->orWhere('updated_at', 'like', '%' . $search . '%')
-
                 ->orWhere('created_at', 'like', '%' . $search . '%');
         }
 
         $listItem = $query->paginate($size, ['*'], 'page', $page);
-
         $totalPages = ceil($listItem->total() / $size);
 
         $templateVariables = [
@@ -60,39 +47,24 @@ class AdminUsersController extends Controller
     public function createFunction(Request $request, User $user)
     {
         $request->validate([
-
             'name' => 'nullable|string|max:255',
-
             'email' => 'nullable|string|max:255',
-
             'password' => 'nullable|string|max:255',
-
             'phone' => 'nullable|string|max:255',
-
             'location' => 'nullable|string|max:255',
-
-            'about_me' => 'nullable|string|max:255',
+            'about_me' => 'nullable|string|max:255', // ROMLE
         ]);
 
-        // Check if ID is present
         if ($request->has('id')) {
-            // Update existing record
             $category = DB::table('users')->where('id', $request->id)->first();
             if ($category) {
                 $data = [
-
                     'name' => $request->name,
-
                     'email' => $request->email,
-
                     'password' => bcrypt($request->password),
-
                     'phone' => $request->phone,
-
                     'location' => $request->location,
-
                     'about_me' => $request->about_me,
-
                     'remember_token' => $request->remember_token,
                     'created_at' => now(),
                     'updated_at' => now(),

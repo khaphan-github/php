@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminOrdersController;
 use App\Http\Controllers\AdminProductReviewsController;
 use App\Http\Controllers\AdminProductsController;
 use App\Http\Controllers\AdminUsersController;
+use App\Http\Controllers\APIController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\InfoUserController;
 use App\Http\Controllers\RegisterController;
@@ -103,6 +104,7 @@ Route::group(['middleware' => 'guest'], function () {
 	Route::post('/forgot-password', [ResetController::class, 'sendEmail']);
 	Route::get('/reset-password/{token}', [ResetController::class, 'resetPass'])->name('password.reset');
 	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
+
 });
 
 Route::view('/login', 'client/authen/login')->name('u.login');
@@ -146,8 +148,12 @@ Route::group(['middleware' => 'UserRole'], function () {
 	Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 	
 	//Route Profile
-	Route::view('/profile', 'client/pages/profile');
 	Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+	Route::get('/profile/order/{id}', [ProfileController::class, 'detailOrder'])->name('detailOrder');
+
+
+	Route::get('/user-profile', [InfoUserController::class, 'create']);
+	Route::post('/user-profile', [InfoUserController::class, 'store']);
 });
 	
 //Route Authen Client
@@ -155,3 +161,6 @@ Route::group(['middleware' => 'UserRole'], function () {
 Route::view('/blog', 'client/pages/blog');
 Route::view('/blog-details', 'client/pages/blog-details');
 Route::view('/NotFoundItem', 'client/pages/NotFoundItem');
+
+
+
