@@ -23,6 +23,7 @@ class SessionsController extends Controller
         ]);
 
         $current_user = DB::table('users')->where('email', $request->email)->first();
+        Log::info('Current user information:', ['user' => $current_user]);
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             session()->regenerate();
             if ($current_user->about_me == 'ADMIN') {
@@ -31,7 +32,7 @@ class SessionsController extends Controller
                 return redirect('shop')->with(['success' => 'You are logged in.']);
             }
         } else {
-            return back()->withErrors(['email' => 'Email or password invalid.']);
+            return back()->withErrors(['error' => 'Sai ten dang nhap hoac mat khau']);
         }
     }
 
@@ -39,8 +40,6 @@ class SessionsController extends Controller
     {
         // Access specific form fields
         Auth::logout();
-
-                return redirect('/')->with(['success' => 'You\'ve been logged out.']);
-
+        return redirect('/')->with(['success' => 'You\'ve been logged out.']);
     }
 }

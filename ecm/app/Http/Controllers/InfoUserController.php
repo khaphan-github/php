@@ -53,16 +53,11 @@ class InfoUserController extends Controller
         $query = DB::table('order');
 
         if (!empty($search)) {
-
             $query
                 ->orWhere('status', 'like', '%' . $search . '%')
-
                 ->orWhere('payment_method', 'like', '%' . $search . '%')
-
                 ->orWhere('user_id', 'like', '%' . $search . '%')
-
                 ->orWhere('created_at', 'like', '%' . $search . '%')
-
                 ->orWhere('updated_at', 'like', '%' . $search . '%');
         }
 

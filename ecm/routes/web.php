@@ -53,9 +53,8 @@ Route::group(['middleware' => 'AdminRole'], function () {
 		return view('admin/static-sign-up');
 	})->name('sign-up');
 
-	Route::get('/logout', [SessionsController::class, 'destroy'])->name('logout');
-	Route::get('/user-profile', [InfoUserController::class, 'create']);
-	Route::post('/user-profile', [InfoUserController::class, 'store']);
+	// Route::get('/user-profile', [InfoUserController::class, 'create']);
+	// Route::post('/user-profile', [InfoUserController::class, 'store']);
 	
 	/**
 	Route::get('/login', function () {
@@ -112,8 +111,8 @@ Route::view('/login', 'client/authen/login')->name('u.login');
 // Route includes 
 
 //Route Admin
-Route::get('/test', [TestController::class, 'get']);
-Route::post('/admin/category/create', [TestController::class, 'store'])->name('admin.category.store');
+// Route::get('/test', [TestController::class, 'get']);
+// Route::post('/admin/category/create', [TestController::class, 'store'])->name('admin.category.store');
 
 //Route Home
 Route::view('/home', 'client/pages/home');
@@ -148,19 +147,11 @@ Route::group(['middleware' => 'UserRole'], function () {
 	Route::get('/contact', [ContactController::class, 'contact'])->name('contact');
 	
 	//Route Profile
-	Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
 	Route::get('/profile/order/{id}', [ProfileController::class, 'detailOrder'])->name('detailOrder');
-
-
-	Route::get('/user-profile', [InfoUserController::class, 'create']);
-	Route::post('/user-profile', [InfoUserController::class, 'store']);
 });
-	
-//Route Authen Client
-
-Route::view('/blog', 'client/pages/blog');
-Route::view('/blog-details', 'client/pages/blog-details');
-Route::view('/NotFoundItem', 'client/pages/NotFoundItem');
-
-
+Route::middleware('auth')->group(function () {
+	Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+	Route::get('/user-profile', [InfoUserController::class, 'create']);
+	Route::get('/logout', [SessionsController::class, 'destroy'])->name('logout');
+});
 

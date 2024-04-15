@@ -14,7 +14,7 @@
 
     <div class="container" id="container">
         <div class="form-container sign-up-container">
-            <form action="#">
+            <form action="/register" method="POST">
                 <h1>Create Account</h1>
                 <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -34,7 +34,7 @@
                     <input type="password" placeholder="Password" />
                     <label></label>
                 </div>
-                <button>Sign Up</button>
+                <button>Đăng ký chạy</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
@@ -54,6 +54,15 @@
                     <input type="password" placeholder="Password" name="password" required />
                     <label></label>
                 </div>
+                @if ($errors->any())
+    <div class="alert alert-danger" >
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li >{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                 <a href="#" class="forgot">Forgot your password?</a>
                 <button type="submit">Đăng nhập</button>
             </form>

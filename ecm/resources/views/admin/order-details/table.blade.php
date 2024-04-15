@@ -111,7 +111,7 @@
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->sell_price }}</p>
                                     </td>
                                           <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">1</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $item->number_of_items}}</p>
                                     </td>
                                         <td class="text-center">
                                         <p class="text-xs font-weight-bold mb-0">{{ $item->created_at }}</p>

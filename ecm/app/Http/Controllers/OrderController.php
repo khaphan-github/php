@@ -116,6 +116,7 @@ class OrderController extends Controller
                     'order_id' => $orderId,
                     'product_id' => $productId,
                     'price_at_purchase' => $priceAtPurchase,
+                    'number_of_items'=> $item->number_of_item,
                     'created_at' => $created_at,
                     'updated_at' => $created_at,
                 ]);

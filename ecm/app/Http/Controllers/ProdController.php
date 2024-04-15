@@ -110,6 +110,7 @@ class ProdController extends Controller
             // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
             $created_at = now();
             $updated_at = now();
+            
         }
         // Trả về response thành công
         return response()->json([
