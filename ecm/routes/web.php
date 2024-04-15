@@ -92,11 +92,10 @@ Route::group(['middleware' => 'AdminRole'], function () {
 
 	// routes/web.php
 });
-
-
 Route::group(['middleware' => 'guest'], function () {
-	Route::get('/register', [RegisterController::class, 'create']);
+	// Route::get('/register', [RegisterController::class, 'create']);
 	Route::post('/register', [RegisterController::class, 'store']);
+	
 	// Route::get('/login', [SessionsController::class, 'create']);
 	Route::post('/session', [SessionsController::class, 'store']);
 	Route::get('/login/forgot-password', [ResetController::class, 'create']);
@@ -151,6 +150,7 @@ Route::group(['middleware' => 'UserRole'], function () {
 });
 Route::middleware('auth')->group(function () {
 	Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+	Route::post('/user-profile', [InfoUserController::class, 'store']);
 	Route::get('/user-profile', [InfoUserController::class, 'create']);
 	Route::get('/logout', [SessionsController::class, 'destroy'])->name('logout');
 });

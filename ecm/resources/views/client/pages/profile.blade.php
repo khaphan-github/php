@@ -131,7 +131,7 @@
             @endif
                 </td>
                  <td>
-                    <span class="text-right">999999 USD</span>
+                    <span class="text-right">{{ $order->total_price}}</span>
                 </td>
                 <td>
                     <span class="">{{ $order->created_at }}</span>

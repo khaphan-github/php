@@ -15,6 +15,7 @@
     <div class="container" id="container">
         <div class="form-container sign-up-container">
             <form action="/register" method="POST">
+                @csrf
                 <h1>Create Account</h1>
                 <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -23,7 +24,7 @@
                 </div>
                 <span>or use your email for registration</span>
                 <div class="infield">
-                    <input type="text" placeholder="Name" />
+                    <input type="text" placeholder="Name" name="name"/>
                     <label></label>
                 </div>
                 <div class="infield">
@@ -31,10 +32,10 @@
                     <label></label>
                 </div>
                 <div class="infield">
-                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Password"  name="password"/>
                     <label></label>
                 </div>
-                <button>Đăng ký chạy</button>
+                <button>Đăng ký</button>
             </form>
         </div>
         <div class="form-container sign-in-container">

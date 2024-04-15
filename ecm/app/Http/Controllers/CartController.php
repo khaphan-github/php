@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Services\CartService;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
@@ -19,7 +20,10 @@ class CartController extends Controller
         $totalHeader = $cartService->calculateTotal();
 
         // Lấy danh sách sản phẩm trong giỏ hàng từ cơ sở dữ liệu
-        $cart = DB::table('cart')->get();
+        $cart = DB::table('cart')
+            ->where('owner_id', Auth::user()->id)
+            ->get();
+
 
         // Khởi tạo biến tổng cộng và tổng tiền
         $total = 0;

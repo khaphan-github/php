@@ -105,13 +105,14 @@ class OrderController extends Controller
                 'user_id' => Auth::user()->id,
             ]);
 
-
+            $totalPrice = 0;
             // INSERT dữ liệu vào bảng 'order_detail' cho mỗi sản phẩm trong giỏ hàng
             foreach ($cartItems as $item) {
                 $productId = $item->product_id;
                 $product = DB::table('product')->where('id', $productId)->first();
                 $priceAtPurchase = $product->sell_price * $item->number_of_item;
-
+                $totalPrice += $priceAtPurchase;
+                
                 DB::table('order_detail')->insert([
                     'order_id' => $orderId,
                     'product_id' => $productId,
@@ -121,9 +122,12 @@ class OrderController extends Controller
                     'updated_at' => $created_at,
                 ]);
             }
-
+            DB::table('order')
+            ->where('id', $orderId)
+            ->update(['total_price' => $totalPrice]);
             // Xóa thông tin giỏ hàng sau khi đã xử lý đơn hàng thành công
-            DB::table('cart')->delete();
+            DB::table('cart')->where('owner_id', Auth::user()->id)->delete();
+
 
             // Chuẩn bị biến để truyền sang view
             $templateVariables = [
