@@ -38,9 +38,9 @@
   sudo apt-get install libpq-dev
   sudo docker-php-ext-install pgsql
 
-  touch /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
-  echo "extension=pdo_pgsql" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
-  cat /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
+  sudo touch /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
+  sudo echo "extension=pdo_pgsql" > /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
+  sudo cat /usr/local/etc/php/conf.d/docker-php-ext-pdo_pgsql.ini
 
   sudo docker-php-ext-install pdo_pgsql
   ```
