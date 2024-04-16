@@ -33,12 +33,15 @@ class ProfileController extends Controller
 
         $templateVariables = [
         'totalHeader' => $totalHeader,
-        'orders' => DB::table('order_detail')
+     'orders' => DB::table('order_detail')
             ->select('order_detail.*', 'product.*')
-            ->leftJoin('product', 'order_detail.product_id', '=', 'product.id')
+            ->join('product', 'order_detail.product_id', '=', 'product.id')
+            ->join('order', 'order_detail.order_id', '=', 'order.id') // Join the 'order' table
             ->where('order_detail.order_id', '=', $request->id)
+            ->where('order.user_id', '=', Auth::user()->id)
             ->get()
-        ];
+];
+
        
 
         return view('client.pages.detail-order', $templateVariables);

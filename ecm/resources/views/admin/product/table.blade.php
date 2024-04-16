@@ -55,8 +55,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="category_id" class="form-label">ID Danh mục</label>
-                        <input type="text" class="form-control" id="category_id" name="category_id">
+                        <label for="category_id" class="form-label">Danh mục</label>
+                        <select class="form-select" id="category_id" name="category_id">
+                            <option value="">--Trống--</option>
+                            @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -134,8 +139,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="category_id" class="form-label">ID Danh mục</label>
-                        <input type="text" class="form-control" id="update_form_category_id" name="category_id">
+                           <label for="update_form_category_id" class="form-label">Danh mục</label>
+                        <select class="form-select" id="update_form_category_id" name="category_id">
+                            <option value="">--Trống--</option>
+                            @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -412,28 +422,16 @@
     function handleUpdateData(item) {
         setTimeout(() => {
             document.getElementById('update_form_id').value = item.id;
-
-
             document.getElementById('update_form_name').value = item.name;
-
             document.getElementById('update_form_description').value = item.description;
-
             document.getElementById('update_form_sell_price').value = item.sell_price;
-
             document.getElementById('update_form_stock_quentity').value = item.stock_quentity;
-
             document.getElementById('update_form_category_id').value = item.category_id;
-
             document.getElementById('update_form_original_price').value = item.original_price;
-
             document.getElementById('update_form_discount_price').value = item.discount_price;
-
             document.getElementById('update_form_thumbnail_url').value = item.thumbnail_url;
-
             document.getElementById('update_form_detail_info').value = item.detail_info;
-
             document.getElementById('update_form_created_at').value = item.created_at;
-
             document.getElementById('update_form_updated_at').value = item.updated_at;
 
         }, 200);

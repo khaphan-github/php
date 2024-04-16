@@ -129,7 +129,9 @@
             })
             .then(response => {
                 if (response.ok) {
+                    location.reload(); 
                     return response.json();
+
                 }
                 throw new Error('Network response was not ok.');
             })

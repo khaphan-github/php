@@ -23,7 +23,7 @@ class OrderController extends Controller
         $totalHeader = $cartService->calculateTotal();
 
          // Lấy danh sách sản phẩm trong giỏ hàng từ cơ sở dữ liệu
-        $cart = DB::table('cart')->get();
+        $cart = DB::table('cart') ->where('owner_id', Auth::user()->id)->get();
 
         // Khởi tạo biến tổng cộng và tổng tiền
         $total = 0;

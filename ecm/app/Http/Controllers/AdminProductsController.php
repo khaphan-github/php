@@ -20,34 +20,20 @@ class AdminProductsController extends Controller
         $query = DB::table('product');
 
         if (!empty($search)) {
-
             $query
-
                 ->orWhere('name', 'like', '%' . $search . '%')
-
                 ->orWhere('description', 'like', '%' . $search . '%')
-
                 ->orWhere('sell_price', 'like', '%' . $search . '%')
-
                 ->orWhere('stock_quentity', 'like', '%' . $search . '%')
-
                 ->orWhere('category_id', 'like', '%' . $search . '%')
-
                 ->orWhere('original_price', 'like', '%' . $search . '%')
-
                 ->orWhere('discount_price', 'like', '%' . $search . '%')
-
                 ->orWhere('thumbnail_url', 'like', '%' . $search . '%')
-
                 ->orWhere('detail_info', 'like', '%' . $search . '%')
-
                 ->orWhere('created_at', 'like', '%' . $search . '%')
-
                 ->orWhere('updated_at', 'like', '%' . $search . '%');
         }
-
         $listItem = $query->paginate($size, ['*'], 'page', $page);
-
         $totalPages = ceil($listItem->total() / $size);
 
         $templateVariables = [
@@ -55,7 +41,8 @@ class AdminProductsController extends Controller
             'searchQuery' => $search,
             'perPage' => $size,
             'page' => $page,
-            'totalPages' => $totalPages
+            'totalPages' => $totalPages,
+            'categories' => DB::table('category')->get(),
         ];
 
         return view('admin/product/table', $templateVariables);
@@ -66,25 +53,15 @@ class AdminProductsController extends Controller
         $request->validate([
 
             'name' => 'nullable|string|max:255',
-
             'description' => 'nullable|string|max:255',
-
             'sell_price' => 'nullable|string|max:255',
-
             'stock_quentity' => 'nullable|string|max:255',
-
             'category_id' => 'nullable|string|max:255',
-
             'original_price' => 'nullable|string|max:255',
-
             'discount_price' => 'nullable|string|max:255',
-
             'thumbnail_url' => 'nullable|string|max:255',
-
             'detail_info' => 'nullable|string|max:255',
-
             'created_at' => 'nullable|string|max:255',
-
             'updated_at' => 'nullable|string|max:255',
 
         ]);

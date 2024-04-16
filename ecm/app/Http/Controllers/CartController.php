@@ -68,7 +68,8 @@ class CartController extends Controller
             DB::table('cart')
                 ->updateOrInsert(
                     ['product_id' => $id],
-                    ['number_of_item' => DB::raw('number_of_item + 1'), 'updated_at' => now()]
+                    ['number_of_item' => DB::raw('number_of_item + 1'), 'updated_at' => now()],
+                    [ 'owner_id' => Auth::user()->id]
                 );
 
             // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
@@ -83,6 +84,7 @@ class CartController extends Controller
                 'number_of_item' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'owner_id' => Auth::user()->id,
             ]);
 
             // Lấy thông tin về thời gian tạo và thời gian cập nhật từ cơ sở dữ liệu
@@ -116,13 +118,12 @@ class CartController extends Controller
         $number_of_item = $request->number_of_item;
 
         // Cập nhật số lượng sản phẩm trong giỏ hàng trong cơ sở dữ liệu
-        DB::table('cart')->where('product_id', $id)->update(['number_of_item' => $number_of_item]);
+        DB::table('cart')->where('product_id', $id)
+                ->where('owner_id', Auth::user()->id)
+                ->update(['number_of_item' => $number_of_item]);
+                
 
-        return response()->json(['name' => $product->name,
-                                'number_of_item' => $number_of_item,
-                                'sell_price' => $product->sell_price,
-                                 'thumbnail_url' => $product->thumbnail_url,
-                                 'message' => 'Product updated from cart successfully!']);
-                                   }
+        return response()->json();
     
+}
 }

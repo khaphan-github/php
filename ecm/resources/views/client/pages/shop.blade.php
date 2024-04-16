@@ -40,7 +40,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="sidebar__item">
+                        <!-- <div class="sidebar__item">
                             <div class="latest-product__text">
                                 <h4>Sản phẩm liên quan</h4>
                                 <div class="latest-product__slider owl-carousel">
@@ -104,7 +104,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-lg-9 col-md-7">
@@ -186,7 +186,7 @@
             products.forEach(product => {
                 const productHTML = `
                     <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="product-item" >
+                    <div class="product-item mt-3" >
                     <div class="position-relative bg-light overflow-hidden">
                     <img class="img-fluid w-100" src="${product.thumbnail_url}" alt="">
                     <div class="bg-secondary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">New</div>

@@ -65,13 +65,13 @@
                         <p> {{ $product->description }}</p>
                             <div class="product__details__quantity">
                                 <div class="quantity">
-                                    <form id="updateCartForm" action="{{ route('updateCart') }}" method="post">
+                                    <!-- <form id="updateCartForm" action="{{ route('updateCart') }}" method="post">
                                         @csrf
                                         <div class="pro-qty">
                                             <input type="hidden" name="id" value="{{ $product->id }}">
-                                            <input type="number" name="number_of_item" value="{{ $cart->first()->number_of_item }}" onchange="updateQuantity(this)">
+                                            <input type="number" name="number_of_item" value="1" onchange="updateQuantity(this)">
                                         </div>
-                                    </form>
+                                    </form> -->
                                 </div>
                             </div>
                         <a href="javascript:void(0);" class="primary-btn" data-product-id="{{ $product->id }}" onclick="addToCart({{ $product->id }})">Thêm vào giỏ hàng</a>
@@ -167,7 +167,7 @@
     <!-- Product Details Section End -->
 
     <!-- Related Product Section Begin -->
-    <section class="related-product">
+    <!-- <section class="related-product">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -194,7 +194,7 @@
                 @endforeach
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- Related Product Section End -->
 
     <script>
